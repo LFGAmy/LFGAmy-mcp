@@ -321,6 +321,20 @@ function renderDiscoveryPage(): { html: string; json: object } {
   <title>Amy Mayernik — MCP Server</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="The MCP server for Amy Mayernik's portfolio — query her capabilities, case studies, philosophy, and role-fit. Companion to lfgamy.com.">
+  <link rel="icon" type="image/svg+xml" href="https://lfgamy.com/images/boots-in-pink-circle.svg">
+  <link rel="apple-touch-icon" href="https://lfgamy.com/images/LFGAmy%20Boots.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcp.lfgamy.com">
+  <meta property="og:title" content="Amy Mayernik — MCP Server">
+  <meta property="og:description" content="Query Amy Mayernik's portfolio through MCP — capabilities, case studies, and role-fit. Built for the agent era.">
+  <meta property="og:image" content="https://lfgamy.com/images/og-card.jpg">
+  <meta property="og:image:width" content="2400">
+  <meta property="og:image:height" content="1260">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Amy Mayernik — MCP Server">
+  <meta name="twitter:description" content="Query Amy Mayernik's portfolio through MCP — capabilities, case studies, and role-fit.">
+  <meta name="twitter:image" content="https://lfgamy.com/images/og-card.jpg">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; line-height: 1.6; color: #1F1F1F; background: #FFFAF2; }
     h1 { font-size: 28px; margin-bottom: 8px; }
