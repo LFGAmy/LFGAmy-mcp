@@ -1,0 +1,46 @@
+{
+  "name": "@amy-mayernik/mcp-profile",
+  "version": "1.0.0",
+  "description": "MCP server for Amy Mayernik — field marketing & events leader and founder of Dott. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
+  "author": "Amy Mayernik <collab@lfgamy.com>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://lfgamy.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LFGAmy/lfgamy-mcp"
+  },
+  "main": "dist/stdio.js",
+  "type": "module",
+  "bin": {
+    "amy-mayernik-mcp": "dist/stdio.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "scripts": {
+    "build:stdio": "tsc",
+    "dev:stdio": "tsx src/stdio.ts",
+    "deploy:vercel": "vercel --prod",
+    "deploy:vercel:preview": "vercel",
+    "test:local": "node dist/stdio.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vercel/node": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "profile",
+    "field-marketing",
+    "events",
+    "lfgamy"
+  ]
+}
