@@ -334,15 +334,15 @@ function renderDiscoveryPage(): { html: string; json: object } {
   </style>
 </head>
 <body>
-  <div class="badge">⚡ MCP PROFILE SERVER</div>
+  <div class="badge">⚡ MCP PORTFOLIO SERVER</div>
   <h1>Amy Mayernik — MCP Server</h1>
-  <p class="subtitle">Remote MCP server exposing Amy's profile as queryable tools and resources — capabilities, case studies, philosophy, and role-fit. Built for the agent era.</p>
+  <p class="subtitle">Remote MCP server exposing Amy's portfolio as queryable tools and resources — capabilities, case studies, philosophy, and role-fit. Built for the agent era.</p>
 
   <h2>Connect from Claude.ai</h2>
   <ol>
     <li>Settings → Connectors → Add custom MCP server</li>
     <li>Paste this URL: <code>https://mcp.lfgamy.com</code></li>
-    <li>Ask Claude: <em>"What's Amy's depth on hacker houses?"</em> or <em>"Score this JD against Amy's profile."</em></li>
+    <li>Ask Claude: <em>"What's Amy's depth on hacker houses?"</em> or <em>"Score this JD against Amy's portfolio."</em></li>
   </ol>
 
   <h2>Connect from Claude Code</h2>

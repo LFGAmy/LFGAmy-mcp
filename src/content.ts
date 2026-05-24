@@ -64,7 +64,7 @@ Plan, forecast, prove, and score event portfolios. Build the operational infrast
 
 ## If you're hiring
 
-This is a brand profile first — but if your team is bringing on a field marketing or events leader, here's when I'm a strong fit: hiring your first dedicated lead and need the function built from zero; inheriting or elevating an existing function that needs structure and measurement rigor; growing a small team through a Series B / C / pre-IPO moment; or selling to a technical, product-minded buyer where brand authority matters and event spend has to tie to pipeline.
+This is a brand portfolio first — but if your team is bringing on a field marketing or events leader, here's when I'm a strong fit: hiring your first dedicated lead and need the function built from zero; inheriting or elevating an existing function that needs structure and measurement rigor; growing a small team through a Series B / C / pre-IPO moment; or selling to a technical, product-minded buyer where brand authority matters and event spend has to tie to pipeline.
 
 ## How to engage
 
