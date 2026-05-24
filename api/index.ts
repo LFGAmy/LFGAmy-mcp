@@ -299,7 +299,7 @@ function renderDiscoveryPage(): { html: string; json: object } {
     protocolVersion: PROTOCOL_VERSION,
     transports: [
       "streamable-http (this endpoint)",
-      "stdio (via npx @amy-mayernik/mcp-profile)",
+      "stdio (via npx @amy-mayernik/mcp-portfolio)",
     ],
     tools: TOOL_DEFINITIONS.map((t) => ({
       name: t.name,
@@ -373,7 +373,7 @@ function renderDiscoveryPage(): { html: string; json: object } {
   "mcpServers": {
     "amy-mayernik": {
       "command": "npx",
-      "args": ["@amy-mayernik/mcp-profile"]
+      "args": ["@amy-mayernik/mcp-portfolio"]
     }
   }
 }</pre>

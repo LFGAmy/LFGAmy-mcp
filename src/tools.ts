@@ -322,7 +322,7 @@ export const TOOL_DEFINITIONS = [
   {
     name: "search_artifacts",
     description:
-      "Search across all portfolio content (profile, case studies, philosophy) for a query. Returns ranked excerpts with resource URIs.",
+      "Search across all portfolio content — case studies, philosophy, and the structured SKILL profile — for a query. Returns ranked excerpts with resource URIs.",
     inputSchema: {
       type: "object" as const,
       properties: {

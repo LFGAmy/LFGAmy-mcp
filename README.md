@@ -31,7 +31,7 @@ https://mcp.lfgamy.com
   "mcpServers": {
     "amy-mayernik": {
       "command": "npx",
-      "args": ["@amy-mayernik/mcp-profile"]
+      "args": ["@amy-mayernik/mcp-portfolio"]
     }
   }
 }
