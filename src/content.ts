@@ -78,6 +78,10 @@ If you build an event and no one shows up, you don't have an event. And if you b
 
 So the promise is simple. Stop thinking about what you need, and start thinking about what you can give. Trust is built when the service runs both ways — and it lives in the details and the care you put into the experience.
 
+## Building for the agent era
+
+I don't just talk about the agent era — I'm putting in the reps. I've completed Anthropic's courses on agent skills, subagents, AI fluency, and AI capabilities & limitations, and I apply them to real systems: the custom Claude skills that run my own workflow, the AI agents I designed for event operations, and the MCP server behind this portfolio. I'm a field marketing and events leader building genuine AI fluency — not an AI engineer, and I don't pretend to be. The point is building for where the work is going.
+
 ## Why this file exists
 
 Modern discovery increasingly involves AI tools that read, summarize, and reason about a person's work. This file is a recognition of that — published in Anthropic's open SKILL.md format, designed to be parseable by humans and agents alike. I build for the agent era, so my own profile lives in it too.
