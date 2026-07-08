@@ -85,3 +85,5 @@ The custom domain `mcp.lfgamy.com` is added in the Vercel project's Domains sett
 ## Contact
 
 `collab@lfgamy.com`
+
+<!-- redeploy -->
