@@ -1,6 +1,6 @@
 # Amy Mayernik — Portfolio MCP Server
 
-> A queryable, agent-readable layer over Amy Mayernik's work — Field & Event Marketing Engineer, founder of Dott, certified Marketing Engineer (Profound). Available for full-time and fractional roles across field & event marketing leadership, marketing engineering, and marketing operations. The machine-readable companion to the open brand home at [lfgamy.com](https://lfgamy.com).
+> A queryable, agent-readable layer over Amy Mayernik's work — a developer marketer who builds, founder of Dott, Profound-certified in Agent Engineering and Marketing Engineering. Open to developer marketing, developer relations, and technical product marketing roles. The machine-readable companion to the open brand home at [lfgamy.com](https://lfgamy.com).
 
 This is an MCP (Model Context Protocol) server that exposes Amy's portfolio as **structured tools and resources** any MCP-compatible agent can query — Claude.ai, Claude Code, Claude Desktop, or your own. It sits alongside the human-readable site at lfgamy.com and the `SKILL.md` / `llms.txt` files published there.
 
@@ -12,7 +12,7 @@ Paste the server URL into Claude.ai and ask:
 
 - *"What's Amy's depth on developer-community events?"*
 - *"Score this JD against Amy's portfolio."* (paste a job description)
-- *"What has Amy shipped as a marketing engineer?"*
+- *"What has Amy shipped as a builder?"*
 - *"What's Amy's operating philosophy?"*
 
 ## Connect
@@ -42,7 +42,7 @@ https://mcp.lfgamy.com
 
 | Tool | What it does |
 |---|---|
-| `get_capability` | Look up Amy's depth on a field marketing / events / marketing engineering / marketing operations capability |
+| `get_capability` | Look up Amy's depth on a developer marketing / developer relations / technical product marketing / community / events capability |
 | `get_case_study` | Return a named case study (`the-vault` or `field-marketing-system`) |
 | `check_role_fit` | Score a job description against Amy's portfolio (met / stretches / gaps + suggested angles) |
 | `search_artifacts` | Search across all portfolio content |

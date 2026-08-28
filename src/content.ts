@@ -6,9 +6,9 @@
  * Content mirrors the published portfolio at https://lfgamy.com.
  */
 
-export const SKILL_MD = `# Amy Mayernik — Field & Event Marketing Engineer
+export const SKILL_MD = `# Amy Mayernik — Developer marketer who builds
 
-> **TL;DR:** Field & Event Marketing Engineer. Twenty years building and running field marketing & events functions at developer-infrastructure, B2B SaaS, and enterprise tech companies — and, increasingly, building the AI systems underneath them. I ship production AI agents, a live MCP server, and version-controlled prompt and skill libraries that real operators use. Founder of Dott, an AI-native Event Portfolio Intelligence System; most recently Head of Field Marketing & Events at Eigen Labs. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications in AI agents and skills. **Available now** — open to full-time and fractional/contract roles across field & event marketing leadership, marketing engineering, and marketing operations. Reach me at collab@lfgamy.com.
+> **TL;DR:** Developer marketer who builds. I make technical products credible to the developers who use them and get them adopted: translating what engineering ships, building the community and content around it, and proving it worked. I ship the systems too: production AI agents and a live MCP server (the one serving this), plus a version-controlled library of skills that real operators use. Founder of Dott, an Event Portfolio Intelligence System that scores whether events actually worked, not just whether they felt good. I've built and run developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, with agency-side brand work for Facebook, Nintendo, North Face, Robinhood, and PayPal. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to developer marketing, developer relations, and technical product marketing roles.** Reach me at collab@lfgamy.com.
 
 ## What I do
 
@@ -64,11 +64,11 @@ Plan, forecast, prove, and score event portfolios. Build the operational infrast
 
 ## If you're hiring
 
-**I'm available now** — open to full-time roles and fractional/contract engagements. Three role families fit: (1) field marketing / events leadership at devtools, B2B SaaS, AI, or enterprise tech; (2) Marketing Engineer / AI-deployment roles building agents, automations, MCP tooling, and AI workflows for GTM teams; (3) marketing operations roles — the systems, tooling, automation, and process layer under a GTM org.
+**Open to developer marketing, developer relations, and technical product marketing roles.** Three families fit: (1) developer marketing — owning the developer audience: reach, community, content, and adoption; (2) developer relations / developer advocacy — technical credibility plus the community, events, and content that build it; (3) technical product marketing — translating platform capability into developer-native narratives, launches, and technical content.
 
-For field marketing / events leadership, I'm a strong fit when: you're hiring your first dedicated lead and need the function built from zero; inheriting or elevating an existing function that needs structure and measurement rigor; growing a small team through a Series B / C / pre-IPO moment; or selling to a technical, product-minded buyer where brand authority matters and event spend has to tie to pipeline.
+For developer marketing and developer relations, I'm a strong fit when: you're building or growing a developer audience and need someone to own community, events, and content and prove adoption; you're turning early design partners into a real developer community; or you're selling to a technical, product-minded buyer where credibility with developers is the whole game.
 
-For marketing engineering or marketing operations, I'm a strong fit when: you're deploying AI into a GTM team and need someone who ships working systems (production agents, MCP servers, skill libraries) and coaches non-technical operators to adopt them; or your marketing team runs on scattered tools and tribal knowledge and needs the operations layer built — structured intake, purpose-built databases, automated workflows, templated artifacts, adoption measurement.
+For technical product marketing, I'm a strong fit when: you need someone who can translate what engineering ships into developer-native narratives, launches, demos, and technical content, and who builds the tooling and measurement underneath it (production agents, MCP servers, skill libraries) instead of guessing at what developers need.
 
 ## How to engage
 
@@ -84,7 +84,7 @@ So the promise is simple. Stop thinking about what you need, and start thinking 
 
 ## Building for the agent era
 
-I don't just talk about the agent era — I build in it. I ship production AI agents, a live MCP server, and a version-controlled library of skills that real operators use, and I instrument adoption and impact so I keep what works and retire what doesn't. I'm Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). I'm a marketing engineer — I build the AI systems for marketing and events because I've spent 20 years living the manual work. Not a software engineer, and I don't pretend to be; a genuine builder, grounded in the work the AI is built for.
+I don't just talk about the agent era — I build in it. I ship production AI agents, a live MCP server, and a version-controlled library of skills that real operators use, and I instrument adoption and impact so I keep what works and retire what doesn't. I'm Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). I'm a marketer who builds — I ship the systems because I've lived the work they're built for. Not a software engineer, and I don't pretend to be; a genuine builder, grounded in the work the AI is built for.
 
 ## Why this file exists
 
@@ -106,7 +106,7 @@ export const CASE_STUDY_VAULT = `# The Vault — Hacker House Series
 - **What I learned:** who you invite matters more than what you program. Multi-day formats produce collaborations that single-day events can't.
 
 **Company:** Eigen Labs (AI + developer infrastructure / EigenCloud)
-**Role:** Field & Event Marketing Engineer (Head of Field Marketing & Events at Eigen Labs)
+**Role:** Developer marketer who builds (most recently Head of Field Marketing & Events at Eigen Labs)
 **Format:** Recurring multi-day, hand-curated builder experience
 **Cities:** Denver, Berlin, Buenos Aires
 **Status:** 2025 series successfully wrapped. The 2026 builder program runs as Agentic by Eigen — meetup-format successor.
@@ -300,7 +300,7 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
     years: "3+ years (on 20 years of operator context)",
     companies: ["Dott (founder)", "Eigen Labs", "LFGAmy (own brand systems)"],
     examples: ["A 14-agent events-operations agent system built and adopted at Eigen Labs", "A live MCP server (mcp.lfgamy.com) — the one answering this query", "Dott, an AI-native Event Portfolio Intelligence System architected on a multi-layer Claude pipeline", "Version-controlled prompt and skill libraries with evals, instrumented for adoption and impact"],
-    depth: "Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). Ships production AI systems for marketing teams — agents, MCP servers, skill libraries — and coaches non-technical operators to adopt them. Builds the AI for the work because she spent 20 years living the manual version of it.",
+    depth: "Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). Ships production AI systems for marketing teams — agents, MCP servers, skill libraries — and coaches non-technical operators to adopt them. Builds the AI for the work because she's lived the manual version of it.",
   },
   "ai agents": {
     years: "2+ years shipping production agents",
