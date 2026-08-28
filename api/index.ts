@@ -46,7 +46,7 @@ const SERVER_INFO = {
   name: "amy-mayernik",
   version: "1.0.0",
   description:
-    "MCP server for Amy Mayernik — Field & Event Marketing Engineer, founder of Dott, certified Marketing Engineer (Profound). Available for full-time and fractional roles across field & event marketing leadership, marketing engineering, and marketing operations. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
+    "MCP server for Amy Mayernik — Field & Event Marketing Engineer, founder of Dott, Profound-certified in Agent Engineering and Marketing Engineering. Available for full-time and fractional roles across field & event marketing leadership, marketing engineering, and marketing operations. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
 };
 
 const PROTOCOL_VERSION = "2024-11-05";
