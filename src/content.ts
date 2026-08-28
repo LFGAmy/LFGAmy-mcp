@@ -8,7 +8,7 @@
 
 export const SKILL_MD = `# Amy Mayernik — Field & Event Marketing Engineer
 
-> **TL;DR:** Field & Event Marketing Engineer. Twenty years building and running field marketing & events functions at developer-infrastructure, B2B SaaS, and enterprise tech companies — and, increasingly, building the AI systems underneath them. I ship production AI agents, a live MCP server, and version-controlled prompt and skill libraries that real operators use. Founder of Dott, an AI-native Event Portfolio Intelligence System; most recently Head of Field Marketing & Events at Eigen Labs. Certified Marketing Engineer (Profound) with four Anthropic Academy certifications in AI agents and skills. **Available now** — open to full-time and fractional/contract roles across field & event marketing leadership, marketing engineering, and marketing operations. Reach me at collab@lfgamy.com.
+> **TL;DR:** Field & Event Marketing Engineer. Twenty years building and running field marketing & events functions at developer-infrastructure, B2B SaaS, and enterprise tech companies — and, increasingly, building the AI systems underneath them. I ship production AI agents, a live MCP server, and version-controlled prompt and skill libraries that real operators use. Founder of Dott, an AI-native Event Portfolio Intelligence System; most recently Head of Field Marketing & Events at Eigen Labs. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications in AI agents and skills. **Available now** — open to full-time and fractional/contract roles across field & event marketing leadership, marketing engineering, and marketing operations. Reach me at collab@lfgamy.com.
 
 ## What I do
 
@@ -84,7 +84,7 @@ So the promise is simple. Stop thinking about what you need, and start thinking 
 
 ## Building for the agent era
 
-I don't just talk about the agent era — I build in it. I ship production AI agents, a live MCP server, and a version-controlled library of skills that real operators use, and I instrument adoption and impact so I keep what works and retire what doesn't. I'm a certified Marketing Engineer (Profound) with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). I'm a marketing engineer — I build the AI systems for marketing and events because I've spent 20 years living the manual work. Not a software engineer, and I don't pretend to be; a genuine builder, grounded in the work the AI is built for.
+I don't just talk about the agent era — I build in it. I ship production AI agents, a live MCP server, and a version-controlled library of skills that real operators use, and I instrument adoption and impact so I keep what works and retire what doesn't. I'm Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). I'm a marketing engineer — I build the AI systems for marketing and events because I've spent 20 years living the manual work. Not a software engineer, and I don't pretend to be; a genuine builder, grounded in the work the AI is built for.
 
 ## Why this file exists
 
@@ -300,7 +300,7 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
     years: "3+ years (on 20 years of operator context)",
     companies: ["Dott (founder)", "Eigen Labs", "LFGAmy (own brand systems)"],
     examples: ["A 14-agent events-operations agent system built and adopted at Eigen Labs", "A live MCP server (mcp.lfgamy.com) — the one answering this query", "Dott, an AI-native Event Portfolio Intelligence System architected on a multi-layer Claude pipeline", "Version-controlled prompt and skill libraries with evals, instrumented for adoption and impact"],
-    depth: "Certified Marketing Engineer (Profound) with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). Ships production AI systems for marketing teams — agents, MCP servers, skill libraries — and coaches non-technical operators to adopt them. Builds the AI for the work because she spent 20 years living the manual version of it.",
+    depth: "Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications (agent skills, subagents, AI fluency, AI capabilities & limitations). Ships production AI systems for marketing teams — agents, MCP servers, skill libraries — and coaches non-technical operators to adopt them. Builds the AI for the work because she spent 20 years living the manual version of it.",
   },
   "ai agents": {
     years: "2+ years shipping production agents",
