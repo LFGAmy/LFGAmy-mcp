@@ -57,31 +57,6 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
  */
 export async function ask(args: { question: string }): Promise<ToolResult> {
   const q = (args.question ?? "").trim().slice(0, MAX_Q);
-  // TEMPORARY diagnostic: `ask "__diag__"` runs the real LLM path and reports OK
-  // or the exact error (no secrets). Remove after debugging. Production users
-  // never hit this because they don't send "__diag__".
-  if (q === "__diag__") {
-    const hasKey = !!process.env.ANTHROPIC_API_KEY;
-    const model = process.env.ANTHROPIC_MODEL || "claude-3-5-haiku-latest";
-    try {
-      const t = await callClaude("Reply with the single word OK.", "Say OK.", 10);
-      return { content: [{ type: "text", text: `DIAG_OK hasKey=${hasKey} model=${model} reply=${t}` }] };
-    } catch (e: any) {
-      return { content: [{ type: "text", text: `DIAG_ERR hasKey=${hasKey} model=${model} name=${e?.name || ""} msg=${(e?.message || String(e)).slice(0, 300)}` }] };
-    }
-  }
-  if (q === "__models__") {
-    try {
-      const r = await fetch("https://api.anthropic.com/v1/models?limit=100", {
-        headers: { "x-api-key": process.env.ANTHROPIC_API_KEY || "", "anthropic-version": "2023-06-01" },
-      });
-      const j: any = await r.json();
-      const ids = (j?.data || []).map((m: any) => m.id).join(", ");
-      return { content: [{ type: "text", text: `MODELS status=${r.status} ids=[${ids}] err=${j?.error ? JSON.stringify(j.error) : ""}` }] };
-    } catch (e: any) {
-      return { content: [{ type: "text", text: `MODELS_ERR ${(e?.message || String(e)).slice(0, 300)}` }] };
-    }
-  }
   if (q.length < 3) {
     return {
       content: [{ type: "text", text: "Ask a question about Amy's work, e.g. 'has she run developer events in EMEA?' or 'can she build agents?'" }],

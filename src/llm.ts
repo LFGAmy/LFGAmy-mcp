@@ -24,7 +24,7 @@ export async function callClaude(system: string, user: string, maxTokens = 900):
 
   // Set ANTHROPIC_MODEL in Vercel to the exact model you have access to.
   // A small/fast model keeps cost low (a fraction of a cent per query).
-  const model = process.env.ANTHROPIC_MODEL || "claude-3-5-haiku-latest";
+  const model = process.env.ANTHROPIC_MODEL || "claude-haiku-4-5-20251001";
 
   const res = await fetch(ANTHROPIC_URL, {
     method: "POST",
