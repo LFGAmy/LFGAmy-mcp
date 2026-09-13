@@ -8,7 +8,7 @@
 
 export const SKILL_MD = `# Amy Mayernik, developer marketer who builds
 
-> **TL;DR:** I build the AI systems teams adopt, and I get teams to actually use them. I ship production AI agents, a live MCP server (the one serving this), and a version-controlled library of skills, with evals that keep them honest. I founded Dott, an AI-native Event Portfolio Intelligence System that scores whether events actually worked, not just whether they felt good. I came up running developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, which is where I learned to build systems teams rely on. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to developer marketing, developer relations, and technical product marketing roles.** Reach me at collab@lfgamy.com.
+> **TL;DR:** I build the AI systems teams adopt, and I get teams to actually use them. I ship production AI agents, a live MCP server (the one serving this), and a version-controlled library of skills, with evals that keep them honest. I founded Dott, an AI-native Event Portfolio Intelligence System that scores whether events actually worked, not just whether they felt good. I came up running developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, which is where I learned to build systems teams rely on. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to roles in AI and agentic marketing operations, AI enablement, and technical product marketing, plus developer relations and community.** Reach me at collab@lfgamy.com.
 
 ## What I build
 
@@ -52,7 +52,7 @@ Profound: Agent Engineering and Marketing Engineering. I built the agents for th
 
 ## If you are hiring
 
-**Open to developer marketing, developer relations, and technical product marketing roles.** I am a strong fit when you need someone who ships production agents, MCP tools, and the evals underneath, and who gets a technical audience to actually adopt them. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
+**Open to roles in AI and agentic marketing operations, AI enablement, and technical product marketing, plus developer relations and community.** I am a strong fit when you need someone who ships production agents, MCP tools, and the evals underneath, and who gets a technical audience to actually adopt them. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
 
 ## How to engage
 
@@ -300,6 +300,18 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
     companies: ["zkSync / Matter Labs", "Coinbase Cloud", "Serotonin clients (Robinhood, PayPal, Crypto.com)"],
     examples: ["Global field marketing at zkSync, function built from zero through the $15M→$75M ARR phase, 20+ annual events across NA/Europe/Asia", "Coinbase Cloud developer-ecosystem events", "Robinhood global events, PayPal PYUSD developer activations, Crypto.com programs (agency-side at Serotonin)"],
     depth: "Deep fluency with fintech and crypto-native audiences, technical buyers, regulated environments, developer ecosystems attached to financial products. Comfortable operating where compliance, brand trust, and builder credibility all have to hold at once.",
+  },
+  "ai marketing operations": {
+    years: "2+ years building, on a 10+ year marketing-ops foundation",
+    companies: ["Eigen Labs", "Dott (founder)", "LFGAmy"],
+    examples: ["A 14-agent events-operations system built and adopted by the GTM team at Eigen Labs", "Dott's multi-agent Plan/Forecast/Prove/Score pipeline in production", "A live MCP server (mcp.lfgamy.com) exposing tools and resources", "Version-controlled prompt and skill libraries with evals, instrumented for adoption"],
+    depth: "Builds AI and agent systems INTO how a marketing or GTM team works, then gets the team to adopt them. Not martech-instance admin (Marketo or HubSpot lifecycle); the build is agents, orchestration, MCP tools, and API integrations into the existing stack, with evals and reliability safeguards. The 14-agent Eigen system is the closest artifact: shared agents across the function, human-in-the-loop and override logic, measured for adoption and impact.",
+  },
+  "ai enablement": {
+    years: "current practice",
+    companies: ["Eigen Labs", "Dott (founder)", "LFGAmy"],
+    examples: ["Rolled out a shared internal agent and skill system to a GTM team and drove adoption", "Coaches non-technical operators to self-sufficiency with AI tools", "Documentation-first: every agent has a prompt, a scope, and an owner", "Profound Agent and Marketing Engineering certs, four Anthropic Academy certs"],
+    depth: "The scarce half of AI enablement is not the demo, it is adoption: getting a team to actually change how it works. Diagnoses where work slips, designs the agent or workflow for that seam, ships it, measures uptake, and retires what does not earn its place. Lived the manual work first, so the enablement lands with operators instead of over their heads.",
   },
   "marketing operations": {
     years: "10+ years",
