@@ -70,6 +70,18 @@ export async function ask(args: { question: string }): Promise<ToolResult> {
       return { content: [{ type: "text", text: `DIAG_ERR hasKey=${hasKey} model=${model} name=${e?.name || ""} msg=${(e?.message || String(e)).slice(0, 300)}` }] };
     }
   }
+  if (q === "__models__") {
+    try {
+      const r = await fetch("https://api.anthropic.com/v1/models?limit=100", {
+        headers: { "x-api-key": process.env.ANTHROPIC_API_KEY || "", "anthropic-version": "2023-06-01" },
+      });
+      const j: any = await r.json();
+      const ids = (j?.data || []).map((m: any) => m.id).join(", ");
+      return { content: [{ type: "text", text: `MODELS status=${r.status} ids=[${ids}] err=${j?.error ? JSON.stringify(j.error) : ""}` }] };
+    } catch (e: any) {
+      return { content: [{ type: "text", text: `MODELS_ERR ${(e?.message || String(e)).slice(0, 300)}` }] };
+    }
+  }
   if (q.length < 3) {
     return {
       content: [{ type: "text", text: "Ask a question about Amy's work, e.g. 'has she run developer events in EMEA?' or 'can she build agents?'" }],
