@@ -27,6 +27,9 @@ import {
   readResource,
   getPrompt,
 } from "../src/tools.js";
+// Intelligent layer: LLM-reasoned role-fit + free-text `ask`. Both fall back to
+// the heuristic tools when no ANTHROPIC_API_KEY is set, so the server never breaks.
+import { checkRoleFitSmart, ask, ASK_TOOL_DEFINITION } from "../src/smart.js";
 
 interface JsonRpcRequest {
   jsonrpc: "2.0";
@@ -44,18 +47,49 @@ interface JsonRpcResponse {
 
 const SERVER_INFO = {
   name: "amy-mayernik",
-  version: "1.0.0",
+  version: "1.1.0",
   description:
     "MCP server for Amy Mayernik — a developer marketer who builds. She makes technical products credible to developers and ships the systems underneath (production AI agents, this MCP server). Founder of Dott. Profound-certified in Agent Engineering and Marketing Engineering. Open to developer marketing, developer relations, and technical product marketing roles. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
 };
 
 const PROTOCOL_VERSION = "2024-11-05";
 
+// All tools advertised to clients: the heuristic set plus the intelligent `ask`.
+const ALL_TOOL_DEFINITIONS = [...TOOL_DEFINITIONS, ASK_TOOL_DEFINITION];
+
+/**
+ * Best-effort per-IP rate limit for the LLM-backed tools (ask, check_role_fit).
+ * This is a PUBLIC endpoint that spends the API key, so we throttle bursts.
+ * Note: Vercel serverless instances are ephemeral and not shared, so this is a
+ * soft burst guard per warm instance, not a global limiter. For hard limits,
+ * add Vercel's platform rate limiting or a KV-backed counter.
+ */
+const RL_WINDOW_MS = 60_000; // 1 minute
+const RL_MAX = 8; // max LLM-backed calls per IP per window per instance
+const rlHits: Map<string, number[]> = new Map();
+function llmRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const arr = (rlHits.get(ip) ?? []).filter((t) => now - t < RL_WINDOW_MS);
+  if (arr.length >= RL_MAX) {
+    rlHits.set(ip, arr);
+    return true;
+  }
+  arr.push(now);
+  rlHits.set(ip, arr);
+  // opportunistic cleanup so the map can't grow unbounded
+  if (rlHits.size > 5000) rlHits.clear();
+  return false;
+}
+function clientIp(req: VercelRequest): string {
+  const fwd = (req.headers["x-forwarded-for"] as string | undefined) ?? "";
+  return fwd.split(",")[0].trim() || "unknown";
+}
+
 /**
  * JSON-RPC handler. Dispatches MCP methods to local tool implementations.
- * Pure logic — no runtime-specific code, identical to the Workers version.
+ * `ip` is passed through so the LLM-backed tools can be rate-limited.
  */
-async function handleRpc(request: JsonRpcRequest): Promise<JsonRpcResponse> {
+async function handleRpc(request: JsonRpcRequest, ip: string): Promise<JsonRpcResponse> {
   const id = request.id ?? null;
 
   try {
@@ -82,11 +116,26 @@ async function handleRpc(request: JsonRpcRequest): Promise<JsonRpcResponse> {
         return {
           jsonrpc: "2.0",
           id,
-          result: { tools: TOOL_DEFINITIONS },
+          result: { tools: ALL_TOOL_DEFINITIONS },
         };
 
       case "tools/call": {
         const { name, arguments: args = {} } = request.params;
+        // Throttle only the tools that call the paid API.
+        if ((name === "ask" || name === "check_role_fit") && llmRateLimited(ip)) {
+          return {
+            jsonrpc: "2.0",
+            id,
+            result: {
+              content: [
+                {
+                  type: "text",
+                  text: "Rate limit reached for this tool. Please wait a minute and try again, or reach Amy directly at collab@lfgamy.com.",
+                },
+              ],
+            },
+          };
+        }
         let result;
         switch (name) {
           case "get_capability":
@@ -96,7 +145,11 @@ async function handleRpc(request: JsonRpcRequest): Promise<JsonRpcResponse> {
             result = getCaseStudy(args);
             break;
           case "check_role_fit":
-            result = checkRoleFit(args);
+            // LLM-reasoned when a key is set; heuristic fallback otherwise.
+            result = await checkRoleFitSmart(args);
+            break;
+          case "ask":
+            result = await ask(args);
             break;
           case "search_artifacts":
             result = searchArtifacts(args);
@@ -270,14 +323,16 @@ export default async function handler(
 
     res.setHeader("Content-Type", "application/json");
 
+    const ip = clientIp(req);
+
     // JSON-RPC supports both single requests and batched arrays.
     if (Array.isArray(body)) {
-      const responses = await Promise.all(body.map((r) => handleRpc(r)));
+      const responses = await Promise.all(body.map((r) => handleRpc(r, ip)));
       res.status(200).send(JSON.stringify(responses));
       return;
     }
 
-    const response = await handleRpc(body);
+    const response = await handleRpc(body, ip);
     res.status(200).send(JSON.stringify(response));
     return;
   }
@@ -301,7 +356,7 @@ function renderDiscoveryPage(): { html: string; json: object } {
       "streamable-http (this endpoint)",
       "stdio (via npx @amy-mayernik/mcp-portfolio)",
     ],
-    tools: TOOL_DEFINITIONS.map((t) => ({
+    tools: ALL_TOOL_DEFINITIONS.map((t) => ({
       name: t.name,
       description: t.description,
     })),
@@ -380,7 +435,7 @@ function renderDiscoveryPage(): { html: string; json: object } {
 
   <h2>Available tools</h2>
   <ul>
-    ${TOOL_DEFINITIONS.map(
+    ${ALL_TOOL_DEFINITIONS.map(
       (t) => `<li><strong>${t.name}</strong> — ${t.description.split(/(?<=\.)\s+(?=[A-Z])/)[0]}</li>`
     ).join("\n    ")}
   </ul>

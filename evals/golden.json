@@ -1,0 +1,16 @@
+{
+  "note": "Golden-set evals for the live LFGAmy MCP server (mcp.lfgamy.com). Each case calls a real tool and asserts the response contains facts that are TRUE about Amy. A failing case means the server did not surface a fact it should. Run against the live public server (no API key needed). Keep assertions to things that are genuinely true; never loosen an assertion just to pass.",
+  "endpoint": "https://mcp.lfgamy.com",
+  "cases": [
+    { "id": "cap-events-eigen",      "tool": "get_capability", "args": { "capability": "events" },               "expect_any": ["Eigen"] },
+    { "id": "cap-events-vault",      "tool": "get_capability", "args": { "capability": "events" },               "expect_any": ["Vault"] },
+    { "id": "cap-mcp",               "tool": "get_capability", "args": { "capability": "mcp servers" },           "expect_any": ["MCP", "server"] },
+    { "id": "cap-agents",            "tool": "get_capability", "args": { "capability": "ai agents" },             "expect_any": ["agent"] },
+    { "id": "cap-marketing-eng",     "tool": "get_capability", "args": { "capability": "marketing engineering" }, "expect_any": ["marketing", "engineering"] },
+    { "id": "case-vault-city",       "tool": "get_case_study", "args": { "case_study": "the-vault" },             "expect_any": ["Denver", "Berlin", "Buenos"] },
+    { "id": "case-vault-name",       "tool": "get_case_study", "args": { "case_study": "the-vault" },             "expect_any": ["Vault", "hacker"] },
+    { "id": "case-fms",              "tool": "get_case_study", "args": { "case_study": "field-marketing-system" },"expect_any": ["system", "Notion", "documentation", "database"] },
+    { "id": "search-agents",         "tool": "search_artifacts", "args": { "query": "agents" },                  "expect_any": ["agent", "MCP", "Dott", "Vault"] },
+    { "id": "rolefit-devrel",        "tool": "check_role_fit", "args": { "jd_text": "We are hiring a developer relations engineer to build agents, MCP tools, run developer events, and drive adoption across teams. 5+ years technical experience required." }, "expect_any": ["fit", "ramp", "match", "strong"] }
+  ]
+}
