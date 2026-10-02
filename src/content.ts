@@ -30,6 +30,8 @@ export const SKILL_MD = `# Amy Mayernik, developer marketer who builds
 
 **Every event format:** brand-hosted conferences and summits, conference booths, executive dinners and roundtables, an unconference, team offsites and company team-building, plus speaker prep (talk prep, media interview connections, meeting agendas).
 
+**Major conference programs and community:** Builder breakfasts in 9 cities around the industry's biggest conferences (Denver, Mumbai, SF, NY, Cannes, Seoul, Singapore, Buenos Aires, Dubai), plus co-sponsored hackathons in Cannes, Seoul, and Singapore. Community meetups timed to product launches and launch weeks. Supported developer advocate and ambassador communities: zkStars at zkSync and Eigen Devs at Eigen Labs.
+
 **Developer and crypto events:** zkBazaar at Devconnect Istanbul (the Grand Bazaar recreated with a wallet-pay experience, hosted by zkSync and Clave). The Vault hacker house series (Denver, Berlin, Buenos Aires) at Eigen Labs. The x402 Hackathon. ETHDenver TAC-Build (hacker house plus a networking day). An ETHDenver AI hacker house. Trustless Agents Day and an executive speaker dinner for Ethereum. Several of these ran as side events and activations around major industry conferences, like Devconnect Istanbul and ETHDenver, timed to when developers were already gathered.
 
 **Brand work:** Oracle (Java Developer Campaign), Nintendo, Disney, NBC Sports, PepsiCo, The North Face, Meta, the Arizona Coyotes (NHL), PayPal, Robinhood, and more.
@@ -292,7 +294,7 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
   "developer ecosystem events": {
     years: "8+ years",
     companies: ["Eigen Labs", "Coinbase Cloud"],
-    examples: ["The Vault hacker house series", "Side events around major conferences: zkBazaar at Devconnect Istanbul, TAC-Build and an AI hacker house at ETHDenver", "AI Engineer Summit speaker placements", "Builder sessions at flagship moments"],
+    examples: ["The Vault hacker house series", "Side events around major conferences: zkBazaar at Devconnect Istanbul, TAC-Build and an AI hacker house at ETHDenver", "Builder breakfasts in 9 cities around major conferences, plus co-sponsored hackathons in Cannes, Seoul, and Singapore", "Community meetups timed to product launches and launch weeks", "Developer advocate and ambassador communities: zkStars at zkSync and Eigen Devs at Eigen Labs", "AI Engineer Summit speaker placements", "Builder sessions at flagship moments"],
     depth: "Deep experience in developer-first event archetypes, hacker houses, builder sessions, technical workshops, MCP/SDK hackathons. The work requires being in the room with builders as a peer, not a translator.",
   },
   "global execution": {
@@ -353,6 +355,7 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
 
 // Lookup helper: fuzzy match a capability query to the table
 const CAPABILITY_ALIASES: [string, string][] = [
+  ["launch week", "developer ecosystem events"],
   ["field marketing", "events"],
   ["event marketing", "events"],
   ["brand activation", "experiential marketing"],
@@ -369,6 +372,9 @@ const CAPABILITY_ALIASES: [string, string][] = [
   ["offsite", "events"],
   ["hackathon", "developer ecosystem events"],
   ["devrel", "developer ecosystem events"],
+  ["advocate", "developer ecosystem events"],
+  ["ambassador", "developer ecosystem events"],
+  ["meetup", "developer ecosystem events"],
   ["developer relations", "developer ecosystem events"],
   ["community", "developer ecosystem events"],
   ["eli5", "content and education"],
