@@ -8,32 +8,16 @@
 
 export const SKILL_MD = `# Amy Mayernik, developer marketer who builds
 
-> **TL;DR:** I build the AI systems teams adopt, and I get teams to actually use them. I ship production AI agents, a live MCP server (the one serving this), and a version-controlled library of skills, with evals that keep them honest. I founded Dott, an AI-native Event Portfolio Intelligence System that scores whether events actually worked, not just whether they felt good. I came up running developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, which is where I learned to build systems teams rely on. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to roles in AI and agentic marketing operations, AI enablement, and technical product marketing, plus developer relations and community.** Reach me at collab@lfgamy.com.
-
-## What I build
-
-- **Production AI agents** for real workflows, each scoped to the seams where work slips, with a prompt, an owner, and evals.
-- **A live remote MCP server** (mcp.lfgamy.com) over Streamable HTTP and JSON-RPC 2.0, exposing tools, resources, and prompts. It is the one answering this query.
-- **Dott**, an AI-native Event Portfolio Intelligence System I built solo: a multi-agent system (an orchestrator, intent classification, guardrails, memory, and channel agents for Slack, Telegram, and email) on a multi-model Claude pipeline across Opus, Sonnet, and Haiku, with an eval suite, its own MCP endpoints, observability (Sentry, PostHog, cost-per-outcome), security (Arcjet, TOTP two-factor, row-level access control), and a PDF document engine, on a Supabase Postgres backend. It runs Plan, Forecast, Prove, Score to tell a team which events to repeat and which to retire.
-- **NoteCrush**, part of Dott's meeting-intelligence voice agent: voice notes, meeting-recap intelligence, and voice retros.
-- **A version-controlled library of skills** that real operators use.
-
-## How I keep systems reliable
-
-Anyone can get an agent to work once. The job is keeping it right as prompts, models, and tools change. So the output gets graded against a golden set, judged by a model and a human, and re-run on every prompt, model, or tool change to catch regressions before they ship. I track tool-call success, latency, and cost per outcome.
-
-## How I think
-
-Automation is cheap now. The scarce work is judgment: investigate first, understand what the system actually needs before building it, question the easy route, and prove the thing works. I build the right thing, then measure whether it worked. That is the part you cannot copy-paste.
+> **TL;DR:** Developer marketer who builds. I make technical products credible to the developers who use them and get them adopted: translating what engineering ships, building the community and content around it, and proving it worked. I ship the systems too: production AI agents and a live MCP server (the one serving this), plus a version-controlled library of skills that real operators use. Founder of Dott, an Event Portfolio Intelligence System that scores every event against the reason it was run. I've built and run developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, with agency-side brand work for Facebook, Nintendo, North Face, Robinhood, and PayPal. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to roles in developer marketing, developer relations, and community, plus technical product marketing. The AI systems work is the proof of the building.** Reach me at collab@lfgamy.com.
 
 ## Core capabilities
 
+- **Developer marketing and relations:** owning a developer audience, community, technical content, and adoption, as a peer in the room with builders.
+- **Developer events and community:** hacker houses, hackathons, builder sessions, and executive programs, run globally.
+- **Technical product marketing:** translating what engineering ships into developer-native narratives, launches, and technical content.
 - **Agent engineering:** production agents scoped to real workflows, with evals and observability.
 - **MCP servers:** remote servers end to end. Tool, resource, and prompt design, JSON-RPC over HTTP, deployment and domain wiring.
 - **Evals and reliability:** golden-set evals, LLM-as-judge plus human review, regression on every change, tool-call success, latency and cost per outcome.
-- **Developer marketing and relations:** owning a developer audience, community, technical content, and adoption, as a peer in the room with builders.
-- **Technical product marketing:** translating what engineering ships into developer-native narratives, launches, and technical content.
-- **Developer events and community:** hacker houses, hackathons, builder sessions, and executive programs, run globally.
 - **Systems and operations:** single source of truth, structured intake, workflow automation, templated artifacts, adoption measurement, documentation-first so it survives turnover.
 
 ## Proof of range: where I have shipped
@@ -46,13 +30,29 @@ Automation is cheap now. The scarce work is judgment: investigate first, underst
 
 **Brand work:** Oracle (Java Developer Campaign), Nintendo, PepsiCo, North Face, Meta, PayPal, Robinhood, and more.
 
+## What I build
+
+- **Production AI agents** for real workflows, each scoped to the seams where work slips, with a prompt, an owner, and evals.
+- **A live remote MCP server** (mcp.lfgamy.com) over Streamable HTTP and JSON-RPC 2.0, exposing tools, resources, and prompts. It is the one answering this query.
+- **Dott**, an AI-native Event Portfolio Intelligence System I built solo: a multi-agent system (an orchestrator, intent classification, guardrails, memory, and channel agents for Slack, Telegram, and email) on a multi-model Claude pipeline across Opus, Sonnet, and Haiku, with an eval suite, its own MCP endpoints, observability (Sentry, PostHog, cost-per-outcome), security (Arcjet, TOTP two-factor, row-level access control), and a PDF document engine, on a Supabase Postgres backend. It runs Plan, Forecast, Prove, Score to score every event against the reason it was run, and tell a team which events to repeat and which to retire.
+- **NoteCrush**, part of Dott's meeting-intelligence voice agent: voice notes, meeting-recap intelligence, and voice retros.
+- **A version-controlled library of skills** that real operators use.
+
+## How I keep systems reliable
+
+Anyone can get an agent to work once. The job is keeping it right as prompts, models, and tools change. So the output gets graded against a golden set, judged by a model and a human, and re-run on every prompt, model, or tool change to catch regressions before they ship. I track tool-call success, latency, and cost per outcome.
+
+## How I think
+
+Automation is cheap now. The scarce work is judgment: investigate first, understand what the system actually needs before building it, question the easy route, and prove the thing works. I build the right thing, then measure whether it worked. That is the part you cannot copy-paste.
+
 ## Certified, and I built the work behind it
 
 Profound: Agent Engineering and Marketing Engineering. I built the agents for the certifications. Anthropic Academy: Building Agents, Subagents, AI Fluency, and Model Capabilities. The credentials came with shipped work.
 
 ## If you are hiring
 
-**Open to roles in AI and agentic marketing operations, AI enablement, and technical product marketing, plus developer relations and community.** I am a strong fit when you need someone who ships production agents, MCP tools, and the evals underneath, and who gets a technical audience to actually adopt them. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
+**Open to roles in developer marketing, developer relations, and community, plus technical product marketing. AI and agentic marketing operations is the building behind those, and also a fit on its own.** I am a strong fit when you need someone who owns a developer audience end to end, community, events, content, and adoption, and who also ships the agents, MCP tools, and evals underneath the work. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
 
 ## How to engage
 
