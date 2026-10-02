@@ -36,6 +36,7 @@ export async function callClaude(system: string, user: string, maxTokens = 900):
     body: JSON.stringify({
       model,
       max_tokens: maxTokens,
+      temperature: 0, // same question, same answer
       system,
       messages: [{ role: "user", content: user }],
     }),

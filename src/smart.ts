@@ -75,11 +75,19 @@ Rules: at most 4 fits and 4 ramps. A fit is only allowed if its requirement phra
 type RoleFit = {
   role_core: string;
   fits: { requirement: string; evidence: string }[];
-  ramps: { requirement: string; close: string }[];
+  ramps: { requirement: string; close: string; optional: boolean }[];
   core_is_new_work: boolean;
 };
 
 const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+/** True when the JD sentence holding this phrase marks it as a nice-to-have. */
+export function isOptional(jd: string, phrase: string): boolean {
+  const q = norm(phrase);
+  const sentences = jd.split(/(?<=[.!?;])\s+|\n+/);
+  const s = sentences.find((x) => norm(x).includes(q));
+  return !!s && /\b(a plus|plus\b|preferred|nice to have|bonus|ideally|desirable)/i.test(s);
+}
 
 export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | null {
   const m = raw.match(/\{[\s\S]*\}/);
@@ -96,7 +104,12 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
     .filter((r: any) => r && typeof r.requirement === "string")
     .filter((r: any) => { const q = norm(r.requirement); return q.split(" ").length >= 2 && (!jd || norm(jd).includes(q)); })
-    .map((r: any) => ({ requirement: r.requirement, close: CLOSE.has(r.close) ? r.close : "months" }))
+    .map((r: any) => {
+      const optional = isOptional(jd, r.requirement);
+      let close = CLOSE.has(r.close) ? r.close : "months";
+      if (optional && close === "fundamental") close = "months"; // a nice-to-have can never be a fundamental gap
+      return { requirement: r.requirement, close, optional };
+    })
     .slice(0, 4);
   const core = String(j.role_core ?? "");
   const coreOk = core && (!jd || norm(jd).includes(norm(core)));
@@ -105,8 +118,9 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
 
 export function roleFitLabel(r: RoleFit): string {
   if (r.fits.length === 0) return "Different profile than this role needs";
-  if (r.core_is_new_work && r.ramps.some((x) => x.close === "fundamental")) return "Different profile than this role needs";
-  if (r.ramps.length === 0 || r.ramps.every((x) => x.close === "quick")) return "Strong match";
+  const required = r.ramps.filter((x) => !x.optional);
+  if (r.core_is_new_work && required.some((x) => x.close === "fundamental")) return "Different profile than this role needs";
+  if (required.length === 0 || required.every((x) => x.close === "quick")) return "Strong match";
   return "Match with ramp areas";
 }
 
@@ -126,7 +140,7 @@ export function renderRoleFit(r: RoleFit): string {
   }
   if (r.ramps.length) {
     out.push("", "## Where she'd ramp");
-    for (const x of r.ramps) out.push(`- **${x.requirement.trim().replace(/[.:]$/, "")}:** not shown in her profile. Closeable: ${CLOSE_TEXT[x.close]}.`);
+    for (const x of r.ramps) out.push(`- **${x.requirement.trim().replace(/[.:]$/, "")}${x.optional ? " (listed as a nice-to-have)" : ""}:** not shown in her profile. Closeable: ${CLOSE_TEXT[x.close]}.`);
   }
   const closing =
     label === "Strong match" ? "Her profile covers the core of this role."
