@@ -70,7 +70,7 @@ const ROLE_FIT_JSON_SPEC = `Return ONLY a JSON object, no prose, no code fences,
   "ramps": [ { "requirement": "an EXACT phrase of 2 to 12 words copied character for character from the job description that her profile does not show", "close": "quick" | "weeks" | "months" | "fundamental" } ],
   "core_is_new_work": true | false
 }
-Rules: at most 5 fits and 4 ramps. For evidence, copy ONE short phrase (3 to 12 words) from a single sentence of the profile; never join phrases from different places. Prefer the strongest, most specific evidence (named programs and numbers). A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close. Equivalent experience counts: when a requirement names something specific to this company (its own advocate network, conference, or launch event) or names particular third-party conferences, treat it as met if the profile shows the same kind of work elsewhere (for example a developer advocate or ambassador community, a flagship conference, or programs at major industry conferences), and list it as a fit quoting that profile line. Never list a requirement as a gap just because the profile does not use the company's own name for it.`;
+Rules: at most 5 fits and 4 ramps. Before listing any ramp, search the whole profile for equivalent experience; only list it if nothing in the profile covers it (for example, building AI agents and MCP servers covers AI technical fluency, and running ambassador or advocate communities covers programs for engaged developers). Never list location, office, travel, schedule, visa, pay, or benefits as ramps; those are logistics, not skills. For evidence, copy ONE short phrase (3 to 12 words) from a single sentence of the profile; never join phrases from different places. Prefer the strongest, most specific evidence (named programs and numbers). A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close. Equivalent experience counts: when a requirement names something specific to this company (its own advocate network, conference, or launch event) or names particular third-party conferences, treat it as met if the profile shows the same kind of work elsewhere (for example a developer advocate or ambassador community, a flagship conference, or programs at major industry conferences), and list it as a fit quoting that profile line. Never list a requirement as a gap just because the profile does not use the company's own name for it.`;
 
 type RoleFit = {
   role_core: string;
@@ -99,6 +99,9 @@ export function isOptional(jd: string, phrase: string): boolean {
   return !!s && /\b(a plus|plus\b|preferred|nice to have|bonus|ideally|desirable)/i.test(s);
 }
 
+/** Work-arrangement lines are logistics, never skill gaps. */
+const LOGISTICS = /\b(office|in[- ]person|on[- ]?site|onsite|relocat\w*|remote|hybrid|travel|visa|salary|compensation|benefits?|equity|401k|health insurance|lunch|dinner)\b/i;
+
 export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | null {
   const m = raw.match(/\{[\s\S]*\}/);
   if (!m) return null;
@@ -114,6 +117,8 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
     .filter((r: any) => r && typeof r.requirement === "string")
     .filter((r: any) => !jd || quoted(r.requirement, jd, 2))
+    .filter((r: any) => !LOGISTICS.test(r.requirement))
+    .filter((r: any) => !fits.some((f: any) => norm(f.requirement).includes(norm(r.requirement)) || norm(r.requirement).includes(norm(f.requirement))))
     .map((r: any) => {
       const optional = isOptional(jd, r.requirement);
       let close = CLOSE.has(r.close) ? r.close : "months";
