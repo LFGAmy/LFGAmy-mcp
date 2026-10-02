@@ -15,8 +15,11 @@ function profileContext(): string {
   return `${SKILL_MD}\n\n## Capability summary\n${caps}`;
 }
 
+/** House style: no em dashes in anything the server says. */
+const noEmDash = (t: string) => t.replace(/\s*\u2014\s*/g, ", ");
+
 const HONEST_RULES =
-  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree: if she is not a fit, say she is not a fit for this role right now and name what the role requires that she does not yet have, rather than saying 'do not hire'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Open with exactly one of three calibrated bottom lines: 'Strong match', 'Match with ramp areas', or 'Different profile than this role needs'. Use the last one only when the core function of the role is work the profile shows she has not done, and then say plainly what the role is centered on. Do not use em dashes; use commas, colons, or periods.";
+  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree; never write 'do not hire' or 'not a fit'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Open with exactly one of three calibrated bottom lines: 'Strong match', 'Match with ramp areas', or 'Different profile than this role needs'. The label must agree with the analysis: if the listed requirements can be met by experience in the profile (including any 'or' alternatives in the requirements), or every gap is closeable within about three months, use 'Match with ramp areas'. Use 'Different profile than this role needs' only when the core function of the role is work the profile shows she has not done AND that gap is fundamental, and then say plainly what the role is centered on. Every 'fits' bullet must name a specific item from the profile; never describe her past work in the job description's vocabulary unless the profile uses it. Keep the whole answer under 350 words: at most four bullets per section, one or two sentences each. Do not use em dashes; use commas, colons, or periods.";
 
 /**
  * check_role_fit, reasoned. Paste a real JD, get an honest, tailored read.
@@ -34,14 +37,14 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
   try {
     const text = await callClaude(
       `${HONEST_RULES}\n\nAmy's profile:\n${profileContext()}`,
-      `Company: ${company || "not given; use the company named in the job description, if any"}\n\nJob description:\n${args.jd_text}\n\nRespond with: a one-line bottom line that starts with one of the three calibrated labels and gives the main reason; "Where she clearly fits" (bullets); "Where she'd ramp" (honest bullets, each noting why it matters for this role and how quickly she could close it); and a short bottom line on fit for this role (if she is not a fit, say she is not a fit for this role right now and what it would take to close the gap, never 'do not hire'). Ground every point in the profile above.`,
+      `Company: ${company || "not given; use the company named in the job description, if any"}\n\nJob description:\n${args.jd_text}\n\nRespond with: a one-line opening that starts with one of the three calibrated labels and gives the main reason; "Where she clearly fits" (bullets); "Where she'd ramp" (honest bullets, each noting why it matters for this role and how quickly she could close it); and a two-sentence bottom line that repeats the same label and says what it would take to close the gaps. Ground every point in the profile above.`,
       1600
     );
     return {
       content: [
         {
           type: "text",
-          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile._\n\n${text}\n\n---\nReach Amy directly: collab@lfgamy.com`,
+          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile._\n\n${noEmDash(text)}\n\n---\nReach Amy directly: collab@lfgamy.com`,
         },
       ],
     };
