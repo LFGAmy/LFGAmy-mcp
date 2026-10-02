@@ -19,7 +19,7 @@ function profileContext(): string {
 const noEmDash = (t: string) => t.replace(/\s*\u2014\s*/g, ", ");
 
 const HONEST_RULES =
-  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree; never write 'do not hire' or 'not a fit'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Open with exactly one of three calibrated bottom lines: 'Strong match', 'Match with ramp areas', or 'Different profile than this role needs'. The label must agree with the analysis: if the listed requirements can be met by experience in the profile (including any 'or' alternatives in the requirements), or every gap is closeable within about three months, use 'Match with ramp areas'. Use 'Different profile than this role needs' only when the core function of the role is work the profile shows she has not done AND that gap is fundamental, and then say plainly what the role is centered on. Every 'fits' bullet must name a specific item from the profile; never describe her past work in the job description's vocabulary unless the profile uses it. Keep the whole answer under 350 words: at most four bullets per section, one or two sentences each. Do not use em dashes; use commas, colons, or periods.";
+  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree; never write 'do not hire' or 'not a fit'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Do not use em dashes; use commas, colons, or periods.";
 
 /**
  * check_role_fit, reasoned. Paste a real JD, get an honest, tailored read.
@@ -35,16 +35,19 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
   args = { ...args, jd_text };
   const company = (args.company ?? "").slice(0, 120);
   try {
-    const text = await callClaude(
-      `${HONEST_RULES}\n\nAmy's profile:\n${profileContext()}`,
-      `Company: ${company || "not given; use the company named in the job description, if any"}\n\nJob description:\n${args.jd_text}\n\nRespond with: a one-line opening that starts with one of the three calibrated labels and gives the main reason; "Where she clearly fits" (bullets); "Where she'd ramp" (honest bullets, each noting why it matters for this role and how quickly she could close it); and a two-sentence bottom line that repeats the same label and says what it would take to close the gaps. Ground every point in the profile above.`,
+    const profile = profileContext();
+    const raw = await callClaude(
+      `${HONEST_RULES}\n\nAmy's profile:\n${profile}`,
+      `Company: ${company || "not given; use the company named in the job description, if any"}\n\nJob description:\n${args.jd_text}\n\n${ROLE_FIT_JSON_SPEC}`,
       1600
     );
+    const parsed = parseRoleFit(raw, profile);
+    if (!parsed) return checkRoleFit(args);
     return {
       content: [
         {
           type: "text",
-          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile._\n\n${noEmDash(text)}\n\n---\nReach Amy directly: collab@lfgamy.com`,
+          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile. Every strength below quotes her profile._\n\n${noEmDash(renderRoleFit(parsed))}\n\n---\nReach Amy directly: collab@lfgamy.com`,
         },
       ],
     };
@@ -52,6 +55,82 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
     // Graceful: no key, or API error -> the existing heuristic still answers.
     return checkRoleFit(args);
   }
+}
+
+
+// ---------- Role fit: structured output, checked in code ----------
+// The model returns JSON. The code (not the model) verifies every strength
+// against the profile, picks the label, and caps the length, so the public
+// answer cannot invent experience or contradict itself.
+
+const ROLE_FIT_JSON_SPEC = `Return ONLY a JSON object, no prose, no code fences, in exactly this shape:
+{
+  "role_core": "one sentence: what this job is centered on",
+  "fits": [ { "point": "one sentence on how she fits a requirement of this job", "evidence": "an EXACT phrase of 3 to 12 words copied character for character from Amy's profile that proves the point" } ],
+  "ramps": [ { "gap": "short name of the requirement she lacks", "why": "one sentence on why it matters for this role", "close": "quick" | "weeks" | "months" | "fundamental" } ],
+  "core_is_new_work": true | false
+}
+Rules: at most 4 fits and 4 ramps. A fit is only allowed if its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close.`;
+
+type RoleFit = {
+  role_core: string;
+  fits: { point: string; evidence: string }[];
+  ramps: { gap: string; why: string; close: string }[];
+  core_is_new_work: boolean;
+};
+
+const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+export function parseRoleFit(raw: string, profile: string): RoleFit | null {
+  const m = raw.match(/\{[\s\S]*\}/);
+  if (!m) return null;
+  let j: any;
+  try { j = JSON.parse(m[0]); } catch { return null; }
+  const prof = norm(profile);
+  const fits = (Array.isArray(j.fits) ? j.fits : [])
+    .filter((f: any) => f && typeof f.point === "string" && typeof f.evidence === "string")
+    .filter((f: any) => { const e = norm(f.evidence); return e.split(" ").length >= 3 && prof.includes(e); })
+    .slice(0, 4);
+  const CLOSE = new Set(["quick", "weeks", "months", "fundamental"]);
+  const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
+    .filter((r: any) => r && typeof r.gap === "string" && typeof r.why === "string")
+    .map((r: any) => ({ gap: r.gap, why: r.why, close: CLOSE.has(r.close) ? r.close : "months" }))
+    .slice(0, 4);
+  return { role_core: String(j.role_core ?? ""), fits, ramps, core_is_new_work: j.core_is_new_work === true };
+}
+
+export function roleFitLabel(r: RoleFit): string {
+  if (r.fits.length === 0) return "Different profile than this role needs";
+  if (r.core_is_new_work && r.ramps.some((x) => x.close === "fundamental")) return "Different profile than this role needs";
+  if (r.ramps.length === 0 || r.ramps.every((x) => x.close === "quick")) return "Strong match";
+  return "Match with ramp areas";
+}
+
+const CLOSE_TEXT: Record<string, string> = {
+  quick: "quick to pick up",
+  weeks: "a few weeks of ramp",
+  months: "a ramp of one to three months",
+  fundamental: "a fundamental gap, more than three months",
+};
+
+export function renderRoleFit(r: RoleFit): string {
+  const label = roleFitLabel(r);
+  const out: string[] = [`**${label}.**${r.role_core ? " This role is centered on: " + r.role_core.replace(/\.$/, "") + "." : ""}`];
+  if (r.fits.length) {
+    out.push("", "## Where she clearly fits");
+    for (const f of r.fits) out.push(`- ${f.point} _(Profile: "${f.evidence.trim()}")_`);
+  }
+  if (r.ramps.length) {
+    out.push("", "## Where she'd ramp");
+    for (const x of r.ramps) out.push(`- **${x.gap}:** ${x.why} Closeable: ${CLOSE_TEXT[x.close]}.`);
+  }
+  const closing =
+    label === "Strong match" ? "Her profile covers the core of this role."
+    : label === "Match with ramp areas" && r.core_is_new_work ? "The center of this role is newer work for her, but every gap above is closeable within about three months, and the strengths above carry over."
+    : label === "Match with ramp areas" ? "The core of the role is covered by work she has done; the ramp areas above are what she would learn on the job."
+    : "The center of this role is work her profile does not show yet. Her transferable strengths are listed above.";
+  out.push("", `**Bottom line: ${label}.** ${closing}`);
+  return out.join("\n");
 }
 
 /**
