@@ -47,7 +47,7 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
       content: [
         {
           type: "text",
-          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile. Each strength pairs a line from the job description with the line from her profile that meets it._\n\n${noEmDash(renderRoleFit(parsed))}\n\n---\nReach Amy directly: collab@lfgamy.com`,
+          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile. Every line from the job description and from her profile below is quoted word for word and checked in code._\n\n${noEmDash(renderRoleFit(parsed))}\n\n---\nReach Amy directly: collab@lfgamy.com`,
         },
       ],
     };
@@ -65,9 +65,9 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
 
 const ROLE_FIT_JSON_SPEC = `Return ONLY a JSON object, no prose, no code fences, in exactly this shape:
 {
-  "role_core": "one sentence: what this job is centered on",
+  "role_core": "an EXACT phrase of 3 to 15 words copied character for character from the job description that states what the job is centered on",
   "fits": [ { "requirement": "an EXACT phrase of 2 to 12 words copied character for character from the job description", "evidence": "an EXACT phrase of 3 to 12 words copied character for character from Amy's profile that shows she meets it" } ],
-  "ramps": [ { "gap": "short name of the requirement she lacks", "why": "one sentence on why it matters for this role", "close": "quick" | "weeks" | "months" | "fundamental" } ],
+  "ramps": [ { "requirement": "an EXACT phrase of 2 to 12 words copied character for character from the job description that her profile does not show", "close": "quick" | "weeks" | "months" | "fundamental" } ],
   "core_is_new_work": true | false
 }
 Rules: at most 4 fits and 4 ramps. A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close.`;
@@ -75,7 +75,7 @@ Rules: at most 4 fits and 4 ramps. A fit is only allowed if its requirement phra
 type RoleFit = {
   role_core: string;
   fits: { requirement: string; evidence: string }[];
-  ramps: { gap: string; why: string; close: string }[];
+  ramps: { requirement: string; close: string }[];
   core_is_new_work: boolean;
 };
 
@@ -94,10 +94,13 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
     .slice(0, 4);
   const CLOSE = new Set(["quick", "weeks", "months", "fundamental"]);
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
-    .filter((r: any) => r && typeof r.gap === "string" && typeof r.why === "string")
-    .map((r: any) => ({ gap: r.gap, why: r.why, close: CLOSE.has(r.close) ? r.close : "months" }))
+    .filter((r: any) => r && typeof r.requirement === "string")
+    .filter((r: any) => { const q = norm(r.requirement); return q.split(" ").length >= 2 && (!jd || norm(jd).includes(q)); })
+    .map((r: any) => ({ requirement: r.requirement, close: CLOSE.has(r.close) ? r.close : "months" }))
     .slice(0, 4);
-  return { role_core: String(j.role_core ?? ""), fits, ramps, core_is_new_work: j.core_is_new_work === true };
+  const core = String(j.role_core ?? "");
+  const coreOk = core && (!jd || norm(jd).includes(norm(core)));
+  return { role_core: coreOk ? core : "", fits, ramps, core_is_new_work: j.core_is_new_work === true };
 }
 
 export function roleFitLabel(r: RoleFit): string {
@@ -116,14 +119,14 @@ const CLOSE_TEXT: Record<string, string> = {
 
 export function renderRoleFit(r: RoleFit): string {
   const label = roleFitLabel(r);
-  const out: string[] = [`**${label}.**${r.role_core ? " This role is centered on: " + r.role_core.replace(/\.$/, "") + "." : ""}`];
+  const out: string[] = [`**${label}.**${r.role_core ? " The job description centers on: \"" + r.role_core.trim().replace(/[.:]$/, "") + ".\"" : ""}`];
   if (r.fits.length) {
     out.push("", "## Where she clearly fits");
     for (const f of r.fits) out.push(`- **${f.requirement.trim().replace(/[.:]$/, "")}:** "${f.evidence.trim()}"`);
   }
   if (r.ramps.length) {
     out.push("", "## Where she'd ramp");
-    for (const x of r.ramps) out.push(`- **${x.gap}:** ${x.why} Closeable: ${CLOSE_TEXT[x.close]}.`);
+    for (const x of r.ramps) out.push(`- **${x.requirement.trim().replace(/[.:]$/, "")}:** not shown in her profile. Closeable: ${CLOSE_TEXT[x.close]}.`);
   }
   const closing =
     label === "Strong match" ? "Her profile covers the core of this role."
@@ -132,6 +135,33 @@ export function renderRoleFit(r: RoleFit): string {
     : "The center of this role is work her profile does not show yet. Her transferable strengths are listed above.";
   out.push("", `**Bottom line: ${label}.** ${closing}`);
   return out.join("\n");
+}
+
+// ---------- ask: every sentence must carry a quote that exists in the content ----------
+type AskLine = { sentence: string; quote: string; source: string };
+
+export function parseAsk(raw: string, content: Record<string, string>): AskLine[] {
+  const m = raw.match(/\{[\s\S]*\}/);
+  if (!m) return [];
+  let j: any;
+  try { j = JSON.parse(m[0]); } catch { return []; }
+  const all = Object.entries(content).map(([uri, c]) => [uri, norm(c)] as const);
+  return (Array.isArray(j.answer) ? j.answer : [])
+    .filter((a: any) => a && typeof a.sentence === "string" && typeof a.quote === "string")
+    .map((a: any) => {
+      const qn = norm(a.quote);
+      if (qn.split(" ").length < 3) return null;
+      const hit = all.find(([, c]) => c.includes(qn));
+      return hit ? { sentence: a.sentence.trim(), quote: a.quote.trim(), source: hit[0] } : null;
+    })
+    .filter(Boolean)
+    .slice(0, 5) as AskLine[];
+}
+
+export function renderAsk(lines: AskLine[]): string {
+  if (!lines.length) return "Her portfolio content does not answer that. Reach Amy directly: collab@lfgamy.com";
+  const body = lines.map((l) => `- ${l.sentence}\n  _"${l.quote}" (${l.source})_`).join("\n");
+  return `${body}\n\n_Every answer above is paired with a quote from her portfolio, checked in code._`;
 }
 
 /**
@@ -146,18 +176,18 @@ export async function ask(args: { question: string }): Promise<ToolResult> {
       isError: true,
     };
   }
-  // Grounding: the full portfolio content, capped so the request stays small.
+  // Grounding: the full portfolio content (all of it, so nothing late in a file is lost).
   const grounding = Object.entries(ALL_CONTENT)
-    .map(([uri, c]) => `### ${uri}\n${c.slice(0, 4500)}`)
+    .map(([uri, c]) => `### ${uri}\n${c}`)
     .join("\n\n")
-    .slice(0, 18000);
+    .slice(0, 24000);
   try {
-    const text = await callClaude(
-      "You answer questions about Amy Mayernik using ONLY the portfolio content provided. Be honest and specific. If the content does not support an answer, say so plainly and do not invent anything. Cite the resource URIs (e.g. case-study://the-vault) you drew from. Do not use em dashes.",
+    const raw = await callClaude(
+      "You answer questions about Amy Mayernik using ONLY the portfolio content provided. Be honest and specific, never invent anything. Do not use em dashes. Return ONLY a JSON object, no prose, no code fences: {\"answer\": [ { \"sentence\": \"one plain sentence answering part of the question\", \"quote\": \"an EXACT phrase of 3 to 20 words copied character for character from the content that supports the sentence\", \"source\": \"the resource URI the quote came from\" } ] }. At most 5 sentences. Every sentence must be supported by its quote; do not add claims the quote does not state. If the content does not answer the question, return {\"answer\": []}.",
       `Portfolio content:\n${grounding}\n\nQuestion: ${q}`,
-      800
+      900
     );
-    return { content: [{ type: "text", text }] };
+    return { content: [{ type: "text", text: noEmDash(renderAsk(parseAsk(raw, ALL_CONTENT))) }] };
   } catch (e) {
     // Graceful: keyword search over the same content.
     return searchArtifacts({ query: q });
