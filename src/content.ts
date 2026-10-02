@@ -26,9 +26,15 @@ export const SKILL_MD = `# Amy Mayernik, developer marketer who builds
 
 **Agency-side:** Jack Morton Worldwide (Director of Experiential Marketing, led the Facebook Oculus VR Tour and the Facebook Community Boost Tour, 180-person field team). Serotonin (Events Director: Robinhood, PayPal PYUSD developer activations, Crypto.com). And others.
 
-**Developer and crypto events:** The Vault hacker house series (Denver, Berlin, Buenos Aires) at Eigen Labs. The x402 Hackathon. ETHDenver TAC-Build (hacker house plus a networking day). An ETHDenver AI hacker house. Trustless Agents Day and an executive speaker dinner for Ethereum.
+**Consumer tours and product launches:** The Facebook 35-city VR tour (directed a 180+ person field team). The North Face 20+ city tour. Mountain Dew Kickstart, a four-year, 50-state program. Programs for Nintendo and Oracle. The White Claw West Coast launch. New-product launches for 805 Beer (Firestone Walker) and Reign Total Body Fuel.
 
-**Brand work:** Oracle (Java Developer Campaign), Nintendo, PepsiCo, North Face, Meta, PayPal, Robinhood, and more.
+**Every event format:** brand-hosted conferences and summits, conference booths, executive dinners and roundtables, an unconference, team offsites and company team-building, plus speaker prep (talk prep, media interview connections, meeting agendas).
+
+**Developer and crypto events:** zkBazaar at Devconnect Istanbul (the Grand Bazaar recreated with a wallet-pay experience, hosted by zkSync and Clave). The Vault hacker house series (Denver, Berlin, Buenos Aires) at Eigen Labs. The x402 Hackathon. ETHDenver TAC-Build (hacker house plus a networking day). An ETHDenver AI hacker house. Trustless Agents Day and an executive speaker dinner for Ethereum.
+
+**Brand work:** Oracle (Java Developer Campaign), Nintendo, Disney, NBC Sports, PepsiCo, The North Face, Meta, the Arizona Coyotes (NHL), PayPal, Robinhood, and more.
+
+**Content and education:** Zero-Knowledge Proofs, Explained Like You're 5 (eli5.zksync.io), a zkSync book: I led the project and the creative to bring it to life, the activations around it, distribution to the developer community, and the zero-knowledge education built on it. Cute & Coded (cuteandcoded.com), my own education brand teaching AI and dev basics to women new to tech through lessons, carousels, short videos, and a public builders board. LinkedIn field notes built on my own data, like pulling all 1,600 SF Tech Week events through the Tech Week MCP and charting what hosts actually run. A free public Event Estimator (lfgamy.com/event-estimator).
 
 ## What I build
 
@@ -217,6 +223,30 @@ So the promise is simple. Stop thinking about what you need, and start thinking 
 
 // Capability lookup table, keyword → structured detail
 export const CAPABILITY_TABLE: Record<string, { years: string; companies: string[]; examples: string[]; depth: string }> = {
+  "events": {
+    years: "15+ years, across consumer brands, enterprise, and developer audiences",
+    companies: ["Jack Morton Worldwide (Facebook)", "Switch", "Firestone Walker", "Coinbase Cloud", "zkSync / Matter Labs", "Serotonin (Robinhood, PayPal, Crypto.com)", "Eigen Labs", "Dott (founder)"],
+    examples: ["Facebook 35-city VR tour, directing a 180+ person field team", "The North Face 20+ city tour and Mountain Dew Kickstart, a four-year, 50-state program", "Brand programs for Nintendo and Oracle", "Sports and entertainment: NBC Sports, the Arizona Coyotes (NHL), Disney", "Product launches: White Claw West Coast, 805 Beer (Firestone Walker), Reign Total Body Fuel", "Brand-hosted conferences and summits, conference booths, executive dinners and roundtables, an unconference, team offsites", "Developer events: The Vault hacker houses (Denver, Berlin, Buenos Aires), zkBazaar at Devconnect Istanbul, the x402 Hackathon"],
+    depth: "Has run every event format, from national consumer tours and product launches to executive dinners and developer hacker houses. The developer and crypto work is the most recent chapter, not the whole story. What carries across all of it: designing the format for the audience, leading big field teams, and proving what each event produced.",
+  },
+  "experiential marketing": {
+    years: "15+ years",
+    companies: ["Jack Morton Worldwide", "Switch", "Firestone Walker"],
+    examples: ["Facebook 35-city VR tour and the Facebook Community Boost Tour at Jack Morton", "The North Face 20+ city tour", "Mountain Dew Kickstart, four years across 50 states", "Brand programs for Oracle, Nintendo, Disney, NBC Sports, PepsiCo, and the Arizona Coyotes (NHL)"],
+    depth: "Agency and in-house experiential: touring programs, brand activations, and large field teams, built for consumer audiences long before the developer work.",
+  },
+  "product launches": {
+    years: "15+ years",
+    companies: ["Firestone Walker", "Reign Total Body Fuel", "Jack Morton Worldwide (Facebook)", "Dott (founder)"],
+    examples: ["805 Beer launch (Firestone Walker)", "Reign Total Body Fuel new-product launch", "White Claw West Coast launch", "Facebook VR tour", "Dott, taken from idea to a live, paid product as founder"],
+    depth: "Launches across beverage, consumer tech, and software: getting a new product in front of the right people in person, then building on what lands.",
+  },
+  "content and education": {
+    years: "since zkSync (2022) and ongoing",
+    companies: ["zkSync / Matter Labs", "Cute & Coded (founder)", "LFGAmy", "Dott (founder)"],
+    examples: ["Zero-Knowledge Proofs, Explained Like You're 5 (eli5.zksync.io): led the zkSync book project and creative, the activations around it, community distribution, and the ZK education built on it", "Cute & Coded (cuteandcoded.com): an education brand teaching AI and dev basics to women new to tech, through lessons, carousels, short videos, and a public builders board", "LinkedIn field notes built on original data, e.g. all 1,600 SF Tech Week events pulled through the Tech Week MCP and charted", "The free Event Estimator (lfgamy.com/event-estimator), a public planning tool with plain-language guidance", "Speaker prep: talk prep, media interview connections, meeting agendas"],
+    depth: "Has turned hard technical subjects, like zero-knowledge proofs, into books, activations, and lessons a beginner can follow. Writes and teaches in plain language, turning technical subjects into content a beginner can use, with an accuracy check on every piece. A published body of educational and data-driven content, not a dedicated employer-brand or recruiting-content portfolio.",
+  },
   "hacker houses": {
     years: "5+ years",
     companies: ["Eigen Labs", "Coinbase Cloud", "Serotonin clients"],
@@ -322,6 +352,34 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
 };
 
 // Lookup helper: fuzzy match a capability query to the table
+const CAPABILITY_ALIASES: [string, string][] = [
+  ["field marketing", "events"],
+  ["event marketing", "events"],
+  ["brand activation", "experiential marketing"],
+  ["activation", "experiential marketing"],
+  ["consumer", "experiential marketing"],
+  ["tour", "experiential marketing"],
+  ["launch", "product launches"],
+  ["conference", "events"],
+  ["summit", "events"],
+  ["trade show", "events"],
+  ["booth", "events"],
+  ["dinner", "executive program design"],
+  ["roundtable", "executive program design"],
+  ["offsite", "events"],
+  ["hackathon", "developer ecosystem events"],
+  ["devrel", "developer ecosystem events"],
+  ["developer relations", "developer ecosystem events"],
+  ["community", "developer ecosystem events"],
+  ["eli5", "content and education"],
+  ["explained like", "content and education"],
+  ["zero-knowledge", "content and education"],
+  ["zero knowledge", "content and education"],
+  ["content", "content and education"],
+  ["education", "content and education"],
+  ["writing", "content and education"],
+];
+
 export function lookupCapability(query: string) {
   const q = query.toLowerCase().trim();
   // Exact match first
@@ -330,11 +388,16 @@ export function lookupCapability(query: string) {
   for (const key of Object.keys(CAPABILITY_TABLE)) {
     if (key.includes(q) || q.includes(key)) return { matched: key, data: CAPABILITY_TABLE[key] };
   }
-  // Keyword match
-  const queryWords = q.split(/\s+/);
+  // Common phrasings that should land on a specific entry
+  for (const [alias, key] of CAPABILITY_ALIASES) {
+    if (q.includes(alias) && CAPABILITY_TABLE[key]) return { matched: key, data: CAPABILITY_TABLE[key] };
+  }
+  // Keyword match on whole words (skips short filler words like "and")
+  const STOP = new Set(["and", "the", "for", "of", "to", "a", "in", "on", "with"]);
+  const queryWords = q.split(/[^a-z0-9]+/).filter((w) => w.length > 2 && !STOP.has(w));
   for (const key of Object.keys(CAPABILITY_TABLE)) {
-    const keyWords = key.split(/\s+/);
-    if (queryWords.some((qw) => keyWords.some((kw) => kw.includes(qw) || qw.includes(kw)))) {
+    const keyWords = key.split(/\s+/).filter((w) => !STOP.has(w));
+    if (queryWords.some((qw) => keyWords.some((kw) => kw === qw || kw.startsWith(qw) || qw.startsWith(kw)))) {
       return { matched: key, data: CAPABILITY_TABLE[key] };
     }
   }
