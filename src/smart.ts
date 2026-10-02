@@ -70,7 +70,7 @@ const ROLE_FIT_JSON_SPEC = `Return ONLY a JSON object, no prose, no code fences,
   "ramps": [ { "requirement": "an EXACT phrase of 2 to 12 words copied character for character from the job description that her profile does not show", "close": "quick" | "weeks" | "months" | "fundamental" } ],
   "core_is_new_work": true | false
 }
-Rules: at most 4 fits and 4 ramps. A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close. Equivalent experience counts: when a requirement names something specific to this company (its own advocate network, conference, or launch event) or names particular third-party conferences, treat it as met if the profile shows the same kind of work elsewhere (for example a developer advocate or ambassador community, a flagship conference, or programs at major industry conferences), and list it as a fit quoting that profile line. Never list a requirement as a gap just because the profile does not use the company's own name for it.`;
+Rules: at most 5 fits and 4 ramps. For evidence, copy ONE short phrase (3 to 12 words) from a single sentence of the profile; never join phrases from different places. Prefer the strongest, most specific evidence (named programs and numbers). A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close. Equivalent experience counts: when a requirement names something specific to this company (its own advocate network, conference, or launch event) or names particular third-party conferences, treat it as met if the profile shows the same kind of work elsewhere (for example a developer advocate or ambassador community, a flagship conference, or programs at major industry conferences), and list it as a fit quoting that profile line. Never list a requirement as a gap just because the profile does not use the company's own name for it.`;
 
 type RoleFit = {
   role_core: string;
@@ -109,7 +109,7 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
     .filter((f: any) => f && typeof f.requirement === "string" && typeof f.evidence === "string")
     .filter((f: any) => quoted(f.evidence, profile, 3))
     .filter((f: any) => !jd || quoted(f.requirement, jd, 2))
-    .slice(0, 4);
+    .slice(0, 5);
   const CLOSE = new Set(["quick", "weeks", "months", "fundamental"]);
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
     .filter((r: any) => r && typeof r.requirement === "string")
