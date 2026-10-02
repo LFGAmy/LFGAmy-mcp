@@ -81,18 +81,14 @@ type RoleFit = {
 
 const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-/** A quote counts if it appears verbatim, or if a run of at least 5 consecutive
- *  words from it does (tolerates small copying slips, never paraphrase). */
+/** A quote counts only if every part of it is verbatim in the source. The model may
+ *  join two real phrases with ";" or "." but each part must exist word for word. */
 export function quoted(phrase: string, source: string, minWords = 3): boolean {
-  const words = norm(phrase).split(" ").filter(Boolean);
-  if (words.length < minWords) return false;
   const src = " " + norm(source) + " ";
-  if (src.includes(" " + words.join(" ") + " ")) return true;
-  const run = Math.min(5, words.length);
-  for (let i = 0; i + run <= words.length; i++) {
-    if (src.includes(" " + words.slice(i, i + run).join(" ") + " ")) return true;
-  }
-  return false;
+  const parts = phrase.split(/[;.]\s+|\s+[;.]|…|\.\.\./).map((p) => norm(p)).filter(Boolean);
+  const long = parts.filter((p) => p.split(" ").length >= minWords);
+  if (long.length === 0) return false;
+  return parts.every((p) => p.split(" ").length < minWords ? src.includes(" " + p + " ") || p.split(" ").length <= 1 : src.includes(" " + p + " "));
 }
 
 /** True when the JD sentence holding this phrase marks it as a nice-to-have. */
