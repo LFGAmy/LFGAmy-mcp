@@ -10,7 +10,7 @@ import { SKILL_MD, CAPABILITY_TABLE, ALL_CONTENT } from "./content.js";
 /** Compact, grounded profile context the model may reason over. */
 function profileContext(): string {
   const caps = Object.entries(CAPABILITY_TABLE)
-    .map(([k, v]) => `- ${k}: ${v.years}; applied at ${v.companies.join(", ")}`)
+    .map(([k, v]) => `- ${k}: ${v.years}; applied at ${v.companies.join(", ")}. Examples: ${v.examples.join("; ")}. ${v.depth}`)
     .join("\n");
   return `${SKILL_MD}\n\n## Capability summary\n${caps}`;
 }
@@ -81,6 +81,20 @@ type RoleFit = {
 
 const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
+/** A quote counts if it appears verbatim, or if a run of at least 5 consecutive
+ *  words from it does (tolerates small copying slips, never paraphrase). */
+export function quoted(phrase: string, source: string, minWords = 3): boolean {
+  const words = norm(phrase).split(" ").filter(Boolean);
+  if (words.length < minWords) return false;
+  const src = " " + norm(source) + " ";
+  if (src.includes(" " + words.join(" ") + " ")) return true;
+  const run = Math.min(5, words.length);
+  for (let i = 0; i + run <= words.length; i++) {
+    if (src.includes(" " + words.slice(i, i + run).join(" ") + " ")) return true;
+  }
+  return false;
+}
+
 /** True when the JD sentence holding this phrase marks it as a nice-to-have. */
 export function isOptional(jd: string, phrase: string): boolean {
   const q = norm(phrase);
@@ -97,13 +111,13 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
   const prof = norm(profile);
   const fits = (Array.isArray(j.fits) ? j.fits : [])
     .filter((f: any) => f && typeof f.requirement === "string" && typeof f.evidence === "string")
-    .filter((f: any) => { const e = norm(f.evidence); return e.split(" ").length >= 3 && prof.includes(e); })
-    .filter((f: any) => { const q = norm(f.requirement); return q.split(" ").length >= 2 && (!jd || norm(jd).includes(q)); })
+    .filter((f: any) => quoted(f.evidence, profile, 3))
+    .filter((f: any) => !jd || quoted(f.requirement, jd, 2))
     .slice(0, 4);
   const CLOSE = new Set(["quick", "weeks", "months", "fundamental"]);
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
     .filter((r: any) => r && typeof r.requirement === "string")
-    .filter((r: any) => { const q = norm(r.requirement); return q.split(" ").length >= 2 && (!jd || norm(jd).includes(q)); })
+    .filter((r: any) => !jd || quoted(r.requirement, jd, 2))
     .map((r: any) => {
       const optional = isOptional(jd, r.requirement);
       let close = CLOSE.has(r.close) ? r.close : "months";
@@ -112,7 +126,9 @@ export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | n
     })
     .slice(0, 4);
   const core = String(j.role_core ?? "");
-  const coreOk = core && (!jd || norm(jd).includes(norm(core)));
+  const coreOk = core && (!jd || quoted(core, jd, 3));
+  const claimed = Array.isArray(j.fits) ? j.fits.length : 0;
+  if (claimed > 0 && fits.length === 0) return null; // nothing verifiable: fall back rather than issue a false verdict
   return { role_core: coreOk ? core : "", fits, ramps, core_is_new_work: j.core_is_new_work === true };
 }
 
