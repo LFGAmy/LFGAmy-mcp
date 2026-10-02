@@ -323,7 +323,7 @@ export const TOOL_DEFINITIONS = [
   {
     name: "check_role_fit",
     description:
-      "Score a job description against Amy's portfolio. Returns ✓ met / ⚠ stretches / ✗ gaps assessment plus suggested cover-letter angles. Heuristic match, for deeper analysis, fetch skill://amy-mayernik and reason with Claude directly.",
+      "Honest fit read of a job description against Amy's real profile. Returns one of three labels (Strong match, Match with ramp areas, Different profile than this role needs), strengths that pair a line from the job description with the profile line that meets it, and ramp areas with how long each would take to close.",
     inputSchema: {
       type: "object" as const,
       properties: {

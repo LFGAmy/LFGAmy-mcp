@@ -19,7 +19,7 @@ function profileContext(): string {
 const noEmDash = (t: string) => t.replace(/\s*\u2014\s*/g, ", ");
 
 const HONEST_RULES =
-  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree; never write 'do not hire' or 'not a fit'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Do not use em dashes; use commas, colons, or periods.";
+  "You are the role-fit engine on Amy Mayernik's portfolio MCP server. Assess fit HONESTLY, as a neutral referee, never as a hype machine. State where she clearly fits, where she would ramp, and any real gaps. Do NOT invent experience she does not have; ground every point ONLY in the profile provided. Never credit her with domain experience that appears only in the job description (for example a specific technology, industry, or system the profile does not mention); name those as ramp areas instead. Be specific and concise. Frame the conclusion as fit for THIS role, not a hiring decree; never write 'do not hire' or 'not a fit'. For each real gap, say why it matters for this role and how closeable it is: something she could pick up quickly, a genuine ramp of a few weeks or months, or a fundamental mismatch, so a hiring manager can judge whether it is worth investing in her. Before calling any gap fundamental, weigh transferable experience in the profile (events, community, launches, content, field teams across consumer, enterprise, and developer audiences); judge the core of the job, not its industry label. Industry context: she has real fintech and crypto experience (events and programs for Robinhood, PayPal PYUSD, Crypto.com, Coinbase), so never say she lacks a fintech background; name only the specific sub-domain she lacks (for example identity verification or fraud prevention). Do not use em dashes; use commas, colons, or periods.";
 
 /**
  * check_role_fit, reasoned. Paste a real JD, get an honest, tailored read.
@@ -41,13 +41,13 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
       `Company: ${company || "not given; use the company named in the job description, if any"}\n\nJob description:\n${args.jd_text}\n\n${ROLE_FIT_JSON_SPEC}`,
       1600
     );
-    const parsed = parseRoleFit(raw, profile);
+    const parsed = parseRoleFit(raw, profile, args.jd_text);
     if (!parsed) return checkRoleFit(args);
     return {
       content: [
         {
           type: "text",
-          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile. Every strength below quotes her profile._\n\n${noEmDash(renderRoleFit(parsed))}\n\n---\nReach Amy directly: collab@lfgamy.com`,
+          text: `# Role Fit${company ? ", " + company : ""}\n_Reasoned live by Claude on Amy's MCP server, grounded in her real profile. Each strength pairs a line from the job description with the line from her profile that meets it._\n\n${noEmDash(renderRoleFit(parsed))}\n\n---\nReach Amy directly: collab@lfgamy.com`,
         },
       ],
     };
@@ -66,30 +66,31 @@ export async function checkRoleFitSmart(args: { jd_text: string; company?: strin
 const ROLE_FIT_JSON_SPEC = `Return ONLY a JSON object, no prose, no code fences, in exactly this shape:
 {
   "role_core": "one sentence: what this job is centered on",
-  "fits": [ { "point": "one sentence on how she fits a requirement of this job", "evidence": "an EXACT phrase of 3 to 12 words copied character for character from Amy's profile that proves the point" } ],
+  "fits": [ { "requirement": "an EXACT phrase of 2 to 12 words copied character for character from the job description", "evidence": "an EXACT phrase of 3 to 12 words copied character for character from Amy's profile that shows she meets it" } ],
   "ramps": [ { "gap": "short name of the requirement she lacks", "why": "one sentence on why it matters for this role", "close": "quick" | "weeks" | "months" | "fundamental" } ],
   "core_is_new_work": true | false
 }
-Rules: at most 4 fits and 4 ramps. A fit is only allowed if its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close.`;
+Rules: at most 4 fits and 4 ramps. A fit is only allowed if its requirement phrase appears verbatim in the job description and its evidence phrase appears verbatim in the profile. Never describe her past work using the job description's vocabulary (for example do not call developer events "recruiting events"). "core_is_new_work" is true only if the central function of the job is work the profile shows she has never done. Treat 'or' alternatives in the requirements as satisfied if she meets any one of them. Use "fundamental" only for a gap that would take more than about three months to close.`;
 
 type RoleFit = {
   role_core: string;
-  fits: { point: string; evidence: string }[];
+  fits: { requirement: string; evidence: string }[];
   ramps: { gap: string; why: string; close: string }[];
   core_is_new_work: boolean;
 };
 
 const norm = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-export function parseRoleFit(raw: string, profile: string): RoleFit | null {
+export function parseRoleFit(raw: string, profile: string, jd = ""): RoleFit | null {
   const m = raw.match(/\{[\s\S]*\}/);
   if (!m) return null;
   let j: any;
   try { j = JSON.parse(m[0]); } catch { return null; }
   const prof = norm(profile);
   const fits = (Array.isArray(j.fits) ? j.fits : [])
-    .filter((f: any) => f && typeof f.point === "string" && typeof f.evidence === "string")
+    .filter((f: any) => f && typeof f.requirement === "string" && typeof f.evidence === "string")
     .filter((f: any) => { const e = norm(f.evidence); return e.split(" ").length >= 3 && prof.includes(e); })
+    .filter((f: any) => { const q = norm(f.requirement); return q.split(" ").length >= 2 && (!jd || norm(jd).includes(q)); })
     .slice(0, 4);
   const CLOSE = new Set(["quick", "weeks", "months", "fundamental"]);
   const ramps = (Array.isArray(j.ramps) ? j.ramps : [])
@@ -118,7 +119,7 @@ export function renderRoleFit(r: RoleFit): string {
   const out: string[] = [`**${label}.**${r.role_core ? " This role is centered on: " + r.role_core.replace(/\.$/, "") + "." : ""}`];
   if (r.fits.length) {
     out.push("", "## Where she clearly fits");
-    for (const f of r.fits) out.push(`- ${f.point} _(Profile: "${f.evidence.trim()}")_`);
+    for (const f of r.fits) out.push(`- **${f.requirement.trim().replace(/[.:]$/, "")}:** "${f.evidence.trim()}"`);
   }
   if (r.ramps.length) {
     out.push("", "## Where she'd ramp");
