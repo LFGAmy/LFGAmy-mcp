@@ -228,19 +228,19 @@ So the promise is simple. Stop thinking about what you need, and start thinking 
 // Capability lookup table, keyword → structured detail
 export const CAPABILITY_TABLE: Record<string, { years: string; companies: string[]; examples: string[]; depth: string }> = {
   "events": {
-    years: "15+ years, across consumer brands, enterprise, and developer audiences",
+    years: "20 years, across consumer brands, enterprise, and developer audiences",
     companies: ["Jack Morton Worldwide (Facebook)", "Switch", "Firestone Walker", "Coinbase Cloud", "zkSync / Matter Labs", "Serotonin (Robinhood, PayPal, Crypto.com)", "Eigen Labs", "Dott (founder)"],
     examples: ["Facebook 35-city VR tour, directing a 180+ person field team", "The North Face 20+ city tour and Mountain Dew Kickstart, a four-year, 50-state program", "Brand programs for Nintendo and Oracle", "Sports and entertainment: NBC Sports, the Arizona Coyotes (NHL), Disney", "Product launches: White Claw West Coast, 805 Beer (Firestone Walker), Reign Total Body Fuel", "Brand-hosted conferences and summits, conference booths, executive dinners and roundtables, an unconference, team offsites", "Developer events: The Vault hacker houses (Denver, Berlin, Buenos Aires), zkBazaar at Devconnect Istanbul, the x402 Hackathon"],
     depth: "Has run every event format, from national consumer tours and product launches to executive dinners and developer hacker houses. The developer and crypto work is the most recent chapter, not the whole story. What carries across all of it: designing the format for the audience, leading big field teams, and proving what each event produced.",
   },
   "experiential marketing": {
-    years: "15+ years",
+    years: "20 years",
     companies: ["Jack Morton Worldwide", "Switch", "Firestone Walker"],
     examples: ["Facebook 35-city VR tour and the Facebook Community Boost Tour at Jack Morton", "The North Face 20+ city tour", "Mountain Dew Kickstart, four years across 50 states", "Brand programs for Oracle, Nintendo, Disney, NBC Sports, PepsiCo, and the Arizona Coyotes (NHL)"],
     depth: "Agency and in-house experiential: touring programs, brand activations, and large field teams, built for consumer audiences long before the developer work.",
   },
   "product launches": {
-    years: "15+ years",
+    years: "20 years",
     companies: ["Firestone Walker", "Reign Total Body Fuel", "Jack Morton Worldwide (Facebook)", "Dott (founder)"],
     examples: ["805 Beer launch (Firestone Walker)", "Reign Total Body Fuel new-product launch", "White Claw West Coast launch", "Facebook VR tour", "Dott, taken from idea to a live, paid product as founder"],
     depth: "Launches across beverage, consumer tech, and software: getting a new product in front of the right people in person, then building on what lands.",
@@ -282,7 +282,7 @@ export const CAPABILITY_TABLE: Record<string, { years: string; companies: string
     depth: "Years of experience managing vendor networks at scale. Particularly strong at swag design (partner-co-branded for flagships), venue sourcing (workshop spaces over hotels), and budget-conscious negotiation that preserves quality.",
   },
   "cross-functional gtm": {
-    years: "15+ years",
+    years: "20 years",
     companies: ["Eigen Labs", "Coinbase Cloud", "Switch"],
     examples: ["Aligning sales, DevRel, partnerships, product marketing, comms, leadership", "Pre-event forecasting reviews with sales", "Post-event recap distribution"],
     depth: "Cross-functional coordination is where most events quietly fail. Treat sales + BD + DevRel + partnerships + comms as same team, same mission. Co-author programs. Don't impose from a corner of the org chart.",
