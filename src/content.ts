@@ -8,13 +8,15 @@
 
 export const SKILL_MD = `# Amy Mayernik, developer marketer who builds
 
-> **TL;DR:** Developer marketer who builds. I make technical products credible to the developers who use them and get them adopted: translating what engineering ships, building the community and content around it, and proving it worked. I ship the systems too: production AI agents and a live MCP server (the one serving this), plus a version-controlled library of skills that real operators use. Founder of Dott, an Event Portfolio Intelligence System that scores every event against the reason it was run. I've built and run developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, with agency-side brand work for Facebook, Nintendo, North Face, Robinhood, and PayPal. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to roles in developer marketing, developer relations, and community, plus technical product marketing. The AI systems work is the proof of the building.** Reach me at collab@lfgamy.com.
+> **TL;DR:** Developer marketer who builds. I build the communities, creator programs, and events that get AI and developer tools adopted, and the AI systems that run them. I ship the systems too: production AI agents and a live MCP server (the one serving this), plus a version-controlled library of skills that real operators use. Founder of Dott, an Event Portfolio Intelligence System that scores every event against the reason it was run. I've built and run developer community, events, and field programs at Coinbase Cloud, zkSync, and Eigen Labs, with agency-side brand work for Facebook, Nintendo, North Face, Robinhood, and PayPal. Profound-certified in Agent Engineering and Marketing Engineering, with four Anthropic Academy certifications. **Open to community, events, developer marketing, and creator program roles at AI and developer tool companies. The AI systems work is the proof of the building.** Reach me at collab@lfgamy.com.
 
 ## Core capabilities
 
-- **Developer marketing and relations:** owning a developer audience, community, technical content, and adoption, as a peer in the room with builders.
-- **Developer events and community:** hacker houses, hackathons, builder sessions, and executive programs, run globally.
-- **Technical product marketing:** translating what engineering ships into developer-native narratives, launches, and technical content.
+- **Developer community:** owning a builder audience end to end, programs, channels, content, and adoption, as a peer in the room with builders.
+- **Events programs:** hacker houses, hackathons, builder sessions, conferences, and executive programs, run globally.
+- **Developer marketing:** reach and adoption for a developer or AI audience, plus technical content.
+- **Creator and influencer programs:** consumer influencer programs for Reign Total Body Fuel and Nintendo; recruiting and activating creators so a product becomes proof other people talk about.
+- **Technical storytelling (ramp area for product marketing roles):** translating what engineering ships into developer-native narratives and launches. Product marketing is not a target lane.
 - **Agent engineering:** production agents scoped to real workflows, with evals and observability.
 - **MCP servers:** remote servers end to end. Tool, resource, and prompt design, JSON-RPC over HTTP, deployment and domain wiring.
 - **Evals and reliability:** golden-set evals, LLM-as-judge plus human review, regression on every change, tool-call success, latency and cost per outcome.
@@ -62,7 +64,7 @@ Profound: Agent Engineering and Marketing Engineering. I built the agents for th
 
 ## If you are hiring
 
-**Open to roles in developer marketing, developer relations, and community, plus technical product marketing. AI and agentic marketing operations is the building behind those, and also a fit on its own.** I am a strong fit when you need someone who owns a developer audience end to end, community, events, content, and adoption, and who also ships the agents, MCP tools, and evals underneath the work. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
+**The lanes that fit, in order: (1) community and developer community, (2) events programs and Head of Events, (3) developer marketing, (4) creator programs. Product marketing and technical product marketing are a ramp area, not a target. The AI systems work is how I run all four.** I am a strong fit when you need someone who owns a builder audience end to end, community, events, creators, and adoption, and who also ships the agents, MCP tools, and evals underneath the work. The breadth (teaching, marketing, events, a non-traditional path) is proof of range around that spike, not the headline.
 
 ## How to engage
 

@@ -49,7 +49,7 @@ const SERVER_INFO = {
   name: "amy-mayernik",
   version: "1.1.0",
   description:
-    "MCP server for Amy Mayernik — a developer marketer who builds. She makes technical products credible to developers and ships the systems underneath (production AI agents, this MCP server). Founder of Dott. Profound-certified in Agent Engineering and Marketing Engineering. Open to developer marketing, developer relations, and technical product marketing roles. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
+    "MCP server for Amy Mayernik — a developer marketer who builds. She builds the communities, creator programs, and events that get AI and developer tools adopted, and ships the systems underneath (production AI agents, this MCP server). Founder of Dott. Open to community, events, developer marketing, and creator program roles. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
 };
 
 const PROTOCOL_VERSION = "2024-11-05";
