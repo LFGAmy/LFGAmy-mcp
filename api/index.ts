@@ -49,7 +49,7 @@ const SERVER_INFO = {
   name: "amy-mayernik",
   version: "1.1.0",
   description:
-    "MCP server for Amy Mayernik — a developer marketer who builds. She builds the communities, creator programs, and events that get AI and developer tools adopted, and ships the systems underneath (production AI agents, this MCP server). Founder of Dott. Open to community, events, developer marketing, and creator program roles. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
+    "MCP server for Amy Mayernik, a developer marketer who builds. She builds the communities, creator programs, and events that get AI and developer tools adopted, and ships the systems underneath (production AI agents, this MCP server). Founder of Dott. Open to developer relations, developer advocacy, community, events, developer marketing, and creator program roles. Tools and resources for agents to query her capabilities, case studies, philosophy, and role-fit.",
 };
 
 const PROTOCOL_VERSION = "2024-11-05";
@@ -373,22 +373,22 @@ function renderDiscoveryPage(): { html: string; json: object } {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Amy Mayernik — MCP Server</title>
+  <title>Amy Mayernik: MCP Server</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="The MCP server for Amy Mayernik's portfolio — query her capabilities, case studies, philosophy, and role-fit. Companion to lfgamy.com.">
+  <meta name="description" content="The MCP server for Amy Mayernik's portfolio: query her capabilities, case studies, philosophy, and role-fit. Companion to lfgamy.com.">
   <link rel="icon" type="image/svg+xml" href="https://lfgamy.com/images/boots-in-pink-circle.svg">
   <link rel="apple-touch-icon" href="https://lfgamy.com/images/LFGAmy%20Boots.png">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mcp.lfgamy.com">
-  <meta property="og:title" content="Amy Mayernik — MCP Server">
-  <meta property="og:description" content="Query Amy Mayernik's portfolio through MCP — capabilities, case studies, and role-fit. Built for the agent era.">
+  <meta property="og:title" content="Amy Mayernik: MCP Server">
+  <meta property="og:description" content="Query Amy Mayernik's portfolio through MCP: capabilities, case studies, and role-fit. Built for the agent era.">
   <meta property="og:image" content="https://lfgamy.com/images/og-card.jpg">
   <meta property="og:image:width" content="2400">
   <meta property="og:image:height" content="1260">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Amy Mayernik — MCP Server">
-  <meta name="twitter:description" content="Query Amy Mayernik's portfolio through MCP — capabilities, case studies, and role-fit.">
+  <meta name="twitter:title" content="Amy Mayernik: MCP Server">
+  <meta name="twitter:description" content="Query Amy Mayernik's portfolio through MCP: capabilities, case studies, and role-fit.">
   <meta name="twitter:image" content="https://lfgamy.com/images/og-card.jpg">
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 720px; margin: 60px auto; padding: 0 24px; line-height: 1.6; color: #1F1F1F; background: #FFFAF2; }
@@ -404,8 +404,8 @@ function renderDiscoveryPage(): { html: string; json: object } {
 </head>
 <body>
   <div class="badge">⚡ MCP PORTFOLIO SERVER</div>
-  <h1>Amy Mayernik — MCP Server</h1>
-  <p class="subtitle">Remote MCP server exposing Amy's portfolio as queryable tools and resources — capabilities, case studies, philosophy, and role-fit. Built for the agent era.</p>
+  <h1>Amy Mayernik: MCP Server</h1>
+  <p class="subtitle">Remote MCP server exposing Amy's portfolio as queryable tools and resources: capabilities, case studies, philosophy, and role-fit. Built for the agent era.</p>
 
   <h2>Connect from Claude.ai</h2>
   <ol>
@@ -436,14 +436,14 @@ function renderDiscoveryPage(): { html: string; json: object } {
   <h2>Available tools</h2>
   <ul>
     ${ALL_TOOL_DEFINITIONS.map(
-      (t) => `<li><strong>${t.name}</strong> — ${t.description.split(/(?<=\.)\s+(?=[A-Z])/)[0]}</li>`
+      (t) => `<li><strong>${t.name}</strong>: ${t.description.split(/(?<=\.)\s+(?=[A-Z])/)[0]}</li>`
     ).join("\n    ")}
   </ul>
 
   <h2>Available resources</h2>
   <ul>
     ${RESOURCE_DEFINITIONS.map(
-      (r) => `<li><code>${r.uri}</code> — ${r.name}</li>`
+      (r) => `<li><code>${r.uri}</code>: ${r.name}</li>`
     ).join("\n    ")}
   </ul>
 

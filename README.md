@@ -1,6 +1,6 @@
 # Amy Mayernik: Portfolio MCP Server
 
-> A queryable, agent-readable layer over Amy Mayernik's work. Developer marketer who builds, founder of Dott, Profound-certified in Agent Engineering and Marketing Engineering. Open to community, events, developer marketing, and creator program roles at AI and developer tool companies. The machine-readable companion to the open brand home at [lfgamy.com](https://lfgamy.com).
+> A queryable, agent-readable layer over Amy Mayernik's work. Developer marketer who builds, founder of Dott, Profound-certified in Agent Engineering and Marketing Engineering. Open to developer relations, developer advocacy, community, events, developer marketing, and creator program roles at AI and developer tool companies. The machine-readable companion to the open brand home at [lfgamy.com](https://lfgamy.com).
 
 This is an MCP (Model Context Protocol) server that exposes Amy's portfolio as **structured tools and resources** any MCP-compatible agent can query: Claude.ai, Claude Code, Claude Desktop, or your own. It sits alongside the human-readable site at lfgamy.com and the `SKILL.md` / `llms.txt` files published there.
 
